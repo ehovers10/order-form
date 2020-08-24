@@ -2,18 +2,18 @@ $(document).ready(function() {
   $.getJSON( "/javascripts/fields.json", function( data ) {
     var $group = null, $repeat = null;
     data.survey.forEach(item => {
-      
+
       if (item.type.includes('repeat')) {
         if (item.type.includes('begin')) {
-          $repeat = $('<section></section>');
+          $repeat = $('<fieldset></fieldset>');
           $repeat.addClass('repeat');
           $repeat.attr('data-repeat',item.name);
           $repeat.attr('data-instance',1);
           if (item.relevance) $repeat.attr('data-relevance',item.relevance);
-          $repLabel = $('<h3></h3>');
+          $repLabel = $('<legend></legend>');
           $repLabel.text(item.label);
-          $repLabel.append(` (Repeat Instance 1)`);
           $repLabel.appendTo($repeat);
+          $repLabel.after(`<h4>Repeat Instance 1</h4>`);
         } else {
           let addType = {
             'type': 'button',
@@ -34,7 +34,7 @@ $(document).ready(function() {
           $repeat.appendTo('main');
           $repeat = null;
         }
-      } else if (item.type.includes('group')) {       
+      } else if (item.type.includes('group')) {
         if (item.type.includes('begin')) {
           $group = $('<fieldset></fieldset>');
           $group.attr('data-page',item.name);
@@ -56,56 +56,87 @@ $(document).ready(function() {
         $(field).appendTo(attach);
       }
     });
-    $('.add-repeat').click(function() {
-      let $parent = $(this).parent('.repeat');
-      let $newInstance = parseInt($parent.attr('data-instance')) + 1;
-      let $newRepeat = $parent.clone();
-      $newRepeat.attr('data-instance',$newInstance);
-      $parent.after($newRepeat);
-      $(this).hide();
-      $parent.find('.remove-repeat').show();
-      $newRepeat.find('.remove-repeat').show();
-      $newRepeat.find('.add-repeat').click(function() {
-        let $parent = $(this).parent('.repeat');
-        let $newInstance = $parent.attr('data-instance') + 1;
-        let $newRepeat = $parent.clone();
-        $newRepeat.attr('data-instance',$newInstance);
-        $parent.after($newRepeat);
-        $(this).hide();
-        $newRepeat.find('.remove-repeat').show();
-      });
-      $('.remove-repeat').click(function() {
-        let conf = confirm('Are you sure you want to delete this instance?');
-        if (conf) {
-          let $parent = $(this).parent('.repeat');
-          let $prevParent = $parent.prev('.repeat');
-          $parent.remove();
-          $prevParent.find('.add-repeat').show();
-        }
-      });
-      $('.repeat').each(function() {
-        let inst = $(this).attr('data-instance');
-        $(this).find('h3').append(` (Repeat Instance ${inst})`);
-      });
-    });
+    addRepeat($('main'));
+
+
     $('[data-meta]').add('[data-type="calculate"]').hide();
 
     formSpecifics();
   });
 });
 function formSpecifics() {
-  $('[data-repeat="return_order_rpt"]').hide();
-  $('[data-repeat="add_del_rpt"]').hide();
-  $('[data-repeat="ret_del_rpt"]').hide();
-  $('[data-repeat="ret_add_del_rpt"]').hide();
-  $('[data-repeat="rep_rpt"]').hide();
-  $('[data-repeat="ret_rep_del_rpt"]').hide();
+  let sectColors = [{
+    'id': 'Return_Delivery_2020',
+    'color': 'color1'
+  },{
+    'id': 'Add_Delivery_2020',
+    'color': 'color2'
+  },{
+    'id': 'Return_Add_Delivery_2020',
+    'color': 'color3'
+  },{
+    'id': 'Replant_2020',
+    'color': 'color4'
+  },{
+    'id': 'Return_Replant_2020',
+    'color': 'color5'
+  }];
+  $('#order_add').find('option').each(function() {
+    let sect = $(this).val();
+    if ($(this).is(':selected')) {
+      $('.repeat').add('fieldset').each(function() {
+        if ($(this).attr('data-relevance') && $(this).attr('data-relevance').includes(sect)) $(this).show();
+      });
+    } else {
+      $('.repeat').add('fieldset').each(function() {
+        if ($(this).attr('data-relevance') && $(this).attr('data-relevance').includes(sect)) $(this).hide();
+      });
+    }
+  });
   $('#order_add').change(function() {
-    console.log('Change');
     $(this).find('option').each(function() {
       let sect = $(this).val();
-      console.log(sect,$(this + ':selected'));
-      ($(this + ':selected')) ? $(`[data-repeat="${sect}"]`).show() : $(`[data-repeat="${sect}"]`).hide();
+      if ($(this).is(':selected')) {
+        $('fieldset').each(function() {
+          let item = sectColors.find(e => e.id == sect);
+          if ($(this).attr('data-relevance') && $(this).attr('data-relevance').includes(sect)) {
+            $(this).addClass(item.color);
+            $(this).show();
+          }
+        });
+      } else {
+        $('fieldset').each(function() {
+          if ($(this).attr('data-relevance') && $(this).attr('data-relevance').includes(sect)) $(this).hide();
+        });
+      }
+    });
+  });
+}
+function addRepeat(elem) {
+  elem.find('.add-repeat').click(function() {
+    let $parent = $(this).parent('.repeat');
+    let $newInstance = parseInt($parent.attr('data-instance')) + 1;
+    let $newRepeat = $parent.clone();
+    $newRepeat.attr('data-instance',$newInstance);
+    $parent.after($newRepeat);
+    $(this).hide();
+    $parent.find('.remove-repeat').show();
+    $newRepeat.find('.remove-repeat').show();
+    $(this).off('click');
+    addRepeat($newRepeat);
+    $('.remove-repeat').click(function() {
+      let conf = confirm('Are you sure you want to delete this instance?');
+      if (conf) {
+        let $parent = $(this).parent('.repeat');
+        let $prevParent = $parent.prev('.repeat');
+        $parent.remove();
+        $prevParent.find('.add-repeat').show();
+      }
+    });
+    $('.repeat').each(function() {
+      let inst = $(this).attr('data-instance');
+      $(this).find('h4').remove();
+      $(this).find('legend').after(`<h4>(Repeat Instance ${inst})</h4>`);
     });
   });
 }

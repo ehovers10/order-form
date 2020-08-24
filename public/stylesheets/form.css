@@ -13,13 +13,16 @@
   --tan: #D2B48C;
   --border: #777777;
 }
-main {
-  width: 1000px;
-  margin:auto;
+body {
+  background: rgb(240,250,235);
+  background: #2b4d85;
+  background: linear-gradient(135deg,var(--blue-light) 40%,var(--blue) 60%,var(--blue-light) 100%);
   font-family: 'Roboto', 'Calibri Lite', sans-serif;
-  //display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+}
+main {
+  max-width: 1000px;
+  min-width: 300px;
+  margin:auto;
 }
 h1 {
   text-align: center;
@@ -130,15 +133,37 @@ section {
 }
 
 .repeat {
-  background: #dddddd;
+  background: rgba(210,180,140,0.7);
   padding: 10px;
   width: fit-content;
   margin-bottom: 10px;
+  border-radius: 10px;
+  border: 1px solid tan;
+  position: relative;
+}
+.repeat h4 {
+  position: absolute;
+  top: -20px;
+  right: 10px;
+  padding:5px 10px;
+  background: var(--jacko-bean);
+  color: antiquewhite;
+  border-radius: 5px;
 }
 fieldset {
   padding: 10px;
-  width: 800px;
   margin-bottom: 10px;
+  border: 1px solid tan;
+  background: antiquewhite;
+  border-radius: 10px;
+  color: var(--jacko-bean);
+}
+legend {
+  font-weight: bold;
+  padding: 5px 10px;
+  border-radius: 5px;
+  background: var(--jacko-bean);
+  color: antiquewhite;
 }
 .field {
   display: flex;
@@ -154,7 +179,20 @@ aside {
   height:0;
 }
 .info svg {
-  width: 30px;
+  //width: 30px;
 }
+main > .color1 {
+  background: rgba(255,87,51,0.7);
 }
-
+main > .color2 {
+  background: rgba(70,130,180,0.7);
+}
+main > .color3 {
+  background: rgba(46,139,87,0.7);
+}
+main > .color4 {
+  background: rgba(147,112,219,0.7);
+}
+main > .color5 {
+  background: rgba(255,215,0,0.7);
+}

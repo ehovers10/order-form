@@ -1,0 +1,52 @@
+input,
+select,
+textarea,
+button {
+  border-radius: 4px;
+  padding: 0.5em;
+  flex-grow: 1;
+  font-size: 1em;
+  box-sizing:border-box;
+  color: var(--jacko-bean);
+  background: #FFFFEC;
+  width: 150px;
+  border: 1px solid var(--jacko-bean);
+  border-radius: 4px;
+  box-shadow: inset 0 1px 3px var(--tan);
+}
+.info svg {
+  padding-left: 4px;
+  width: 1.5em;
+  fill: var(--jacko-bean);
+}
+select::-webkit-scrollbar {
+  width:  10px;
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
+select::-webkit-scrollbar-thumb {
+  background: var(--jacko-bean);
+}
+
+select::-webkit-scrollbar-track {
+  background: tan;
+}
+button {
+  font-weight: bold;
+  font-size: 1.1em;
+  cursor: context-menu;
+  border-style: solid;
+  border-right-color: var(--jacko-bean);
+  border-bottom-color: var(--jacko-bean);
+  border-left-color: var(--jacko-bean);
+  border-top-color: var(--jacko-bean);
+  border-right-width: 2px;
+  border-bottom-width: 2px;
+  border-left-width: 0.75px;
+  border-top-width: 0.75px;
+}
+input::placeholder {
+  color: var(--tan);
+  opacity: 0.8;
+}
