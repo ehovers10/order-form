@@ -1,0 +1,3181 @@
+{
+    "survey": [
+        {
+            "type": "phonenumber",
+            "name": "PhoneNumber",
+            "label": "Phone Number if Available",
+            "meta": true
+        },
+        {
+            "type": "deviceid",
+            "name": "DeviceID",
+            "label": "Device ID",
+            "meta": true
+        },
+        {
+            "type": "subscriberid",
+            "name": "subscriberid",
+            "label": "Subscriber ID",
+            "meta": true
+        },
+        {
+            "type": "start",
+            "name": "start",
+            "label": "Date Form Started",
+            "meta": true
+        },
+        {
+            "type": "end",
+            "name": "end",
+            "label": "Date Form Ended",
+            "meta": true
+        },
+        {
+            "type": "begin group",
+            "name": "page1",
+            "label": "Page 1",
+            "appearance": "field-list"
+        },
+        {
+            "type": "select_one order",
+            "name": "order",
+            "label": "Order",
+            "default": "Order_2020",
+            "required": "yes"
+        },
+        {
+            "type": "select_multiple addOrder",
+            "name": "order_add",
+            "label": "Add-On Order:",
+            "hint": "Select any that apply.",
+            "appearance": "minimal"
+        },
+        {
+            "type": "text",
+            "name": "dealer",
+            "label": "Dealer",
+            "hint": "Name can be overwritten. ",
+            "appearance": "note",
+            "calculation": "once(pulldata('customers','dealer_name', 'dealer_key', '1'))"
+        },
+        {
+            "type": "select_one agents",
+            "name": "agent",
+            "label": "Sales Agent",
+            "appearance": "minimal search('customers')"
+        },
+        {
+            "type": "select_one customers",
+            "name": "customer",
+            "label": "Customer Name",
+            "hint": "Leave blank if new customer.\nYou can enter contact information on the next page.",
+            "appearance": "minimal search('customers')"
+        },
+        {
+            "type": "date",
+            "name": "date_of_sale",
+            "label": "Date of Sale",
+            "calculation": "once(today())"
+        },
+        {
+            "type": "end group"
+        },
+        {
+            "type": "calculate",
+            "name": "order_1",
+            "label": "Indicates Return Delivery",
+            "calculation": "if(selected(${order_add},'Return_Delivery_2020'),'Return Delivery','')"
+        },
+        {
+            "type": "calculate",
+            "name": "order_2",
+            "label": "Indicates Additional Delivery",
+            "calculation": "if(selected(${order_add},'Add_Delivery_2020'),'Additional Delivery','')"
+        },
+        {
+            "type": "calculate",
+            "name": "order_3",
+            "label": "Indicates Return Additional Delivery",
+            "calculation": "if(selected(${order_add},'Return_Add_Delivery_2020'),'Return Additional Delivery','')"
+        },
+        {
+            "type": "calculate",
+            "name": "order_4",
+            "label": "Indicates Replant",
+            "calculation": "if(selected(${order_add},'Replant_2020'),'Replant','')"
+        },
+        {
+            "type": "calculate",
+            "name": "order_5",
+            "label": "Indicates Return Replant",
+            "calculation": "if(selected(${order_add},'Return_Replant_2020'),'Return Replant','')"
+        },
+        {
+            "type": "calculate",
+            "name": "ordertype_note",
+            "label": "Add-On Orders Selected",
+            "appearance": "note",
+            "calculation": "if(not(selected(${order_add},'')),${order_add},'')"
+        },
+        {
+            "type": "begin group",
+            "name": "page2",
+            "label": "Page 2",
+            "appearance": "field-list"
+        },
+        {
+            "type": "date",
+            "name": "date_delivery",
+            "label": "Delivery Date:",
+            "relevance": "${order}='Delivery_2020'"
+        },
+        {
+            "type": "date",
+            "name": "date_return",
+            "label": "Return Delivery Date:",
+            "relevance": "selected(${order_add},'Return_Delivery_2020')"
+        },
+        {
+            "type": "date",
+            "name": "date_add",
+            "label": "Additional Delivery Date:",
+            "relevance": "selected(${order_add},'Add_Delivery_2020')"
+        },
+        {
+            "type": "date",
+            "name": "date_ret_add",
+            "label": "Return Additional Delivery Date:",
+            "relevance": "selected(${order_add},'Return_Add_Delivery_2020')"
+        },
+        {
+            "type": "date",
+            "name": "date_rep",
+            "label": "Replant Date:",
+            "relevance": "selected(${order_add},'Replant_2020')"
+        },
+        {
+            "type": "date",
+            "name": "date_ret_rep",
+            "label": "Return Replant Date:",
+            "relevance": "selected(${order_add},'Return_Replant_2020')"
+        },
+        {
+            "type": "note",
+            "name": "contactnote",
+            "label": "Check customer information for accuracy. If any information\nis incorrect, choose 'Add/Edit Contact Info' at the bottom of this page.",
+            "relevance": "${customer} !=''"
+        },
+        {
+            "type": "calculate",
+            "name": "cust_calc",
+            "label": "Gets customer name",
+            "relevance": "${customer} !=''",
+            "calculation": "pulldata('customers','customer','customer_key', ${customer})"
+        },
+        {
+            "type": "text",
+            "name": "caddress",
+            "label": "Customer ${customer}'s Address",
+            "relevance": "${customer} !=''",
+            "calculation": "pulldata('customers','customer_address','customer_key', ${customer})"
+        },
+        {
+            "type": "text",
+            "name": "ccitystatezip",
+            "label": "Customer ${customer}'s City, State, Zip",
+            "relevance": "${customer} !=''",
+            "calculation": "pulldata('customers','customer_csz','customer_key', ${customer})"
+        },
+        {
+            "type": "text",
+            "name": "cphone",
+            "label": "Customer ${customer}'s Phone #",
+            "relevance": "${customer} !=''",
+            "calculation": "pulldata('customers','customer_phone','customer_key', ${customer})"
+        },
+        {
+            "type": "text",
+            "name": "ccustmonsantoid-",
+            "label": "Customer ${customer}'s Monsanto Tech ID - ",
+            "relevance": "${customer} !=''",
+            "calculation": "pulldata('customers','customer_techid','customer_key', ${customer})"
+        },
+        {
+            "type": "select_one contact",
+            "name": "newcontactinfo",
+            "label": "Edit contact info?",
+            "hint": "Select 'Add/Edit Contact Info' to enter new or additional\ninformation on next page.",
+            "default": "Correct",
+            "relevance": "${customer} !=''"
+        },
+        {
+            "type": "end group"
+        },
+        {
+            "type": "begin group",
+            "name": "page3",
+            "label": "Page 3",
+            "appearance": "field-list"
+        },
+        {
+            "type": "note",
+            "name": "edits",
+            "label": "New Customer/Edits:",
+            "hint": "Enter new contact information below.",
+            "relevance": "${customer}='' or ${newcontactinfo}='New_Info'"
+        },
+        {
+            "type": "text",
+            "name": "new_cust",
+            "label": "Customer Name",
+            "relevance": "${customer}='' or ${newcontactinfo}='New_Info'",
+            "calculation": "once(${cust_calc})"
+        },
+        {
+            "type": "text",
+            "name": "new_caddress",
+            "label": "Customer Address",
+            "appearance": "note",
+            "relevance": "${customer}='' or ${newcontactinfo}='New_Info'",
+            "calculation": "once(${caddress})"
+        },
+        {
+            "type": "text",
+            "name": "new_citystatezip",
+            "label": "Customer City, State,Zip",
+            "appearance": "note",
+            "relevance": "${customer}='' or ${newcontactinfo}='New_Info'",
+            "calculation": "once(${ccitystatezip})"
+        },
+        {
+            "type": "text",
+            "name": "cust_phone",
+            "label": "Customer Phone",
+            "relevance": "${customer}='' or ${newcontactinfo}='New_Info'",
+            "required": "yes",
+            "required_message": "Phone number is required.",
+            "calculation": "once(${cphone})"
+        },
+        {
+            "type": "text",
+            "name": "customer_email",
+            "label": "Customer Email",
+            "appearance": "note",
+            "constraint": "regex(., '[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}')",
+            "constraint message": "This isn't a valid email address",
+            "required": "yes",
+            "required_message": "Email is required.",
+            "calculation": "once(pulldata('customers','customer_email','customer_key', ${customer}))"
+        },
+        {
+            "type": "text",
+            "name": "customer_contact",
+            "label": "Alt. Customer Contact",
+            "appearance": "note"
+        },
+        {
+            "type": "end group"
+        },
+        {
+            "type": "calculate",
+            "name": "customer_name",
+            "calculation": "if(${customer} !='',${cust_calc},${new_cust})"
+        },
+        {
+            "type": "calculate",
+            "name": "customer_address",
+            "calculation": "if(${customer} !='',${caddress},${new_caddress})"
+        },
+        {
+            "type": "calculate",
+            "name": "customer_csz",
+            "calculation": "if(${customer} !='',${ccitystatezip},${new_citystatezip})"
+        },
+        {
+            "type": "calculate",
+            "name": "customer_phone",
+            "calculation": "if(${customer} !='',${cphone},${cust_phone})"
+        },
+        {
+            "type": "calculate",
+            "name": "new_cust_alert",
+            "calculation": "if(${customer} !='','','*')"
+        },
+        {
+            "type": "begin group",
+            "name": "page4",
+            "label": "Page 4",
+            "appearance": "field-list"
+        },
+        {
+            "type": "text",
+            "name": "dlr_address",
+            "label": "Dealer Address",
+            "hint": "Overwrite as needed.",
+            "calculation": "once(pulldata('customers','dealer_address', 'dealer_key', '1'))"
+        },
+        {
+            "type": "text",
+            "name": "dlr_city",
+            "label": "Dealer City",
+            "hint": "Overwrite as needed.",
+            "calculation": "once(pulldata('customers','dealer_city', 'dealer_key', '1'))"
+        },
+        {
+            "type": "text",
+            "name": "dlr_state",
+            "label": "Dealer State",
+            "hint": "Overwrite as needed.",
+            "calculation": "once(pulldata('customers','dealer_state', 'dealer_key', '1'))"
+        },
+        {
+            "type": "text",
+            "name": "dlr_zip",
+            "label": "Dealer Zip",
+            "hint": "Overwrite as needed.",
+            "calculation": "once(pulldata('customers','dealer_zip', 'dealer_key', '1'))"
+        },
+        {
+            "type": "text",
+            "name": "dlr_phone",
+            "label": "Dealer Office Phone",
+            "hint": "Overwrite as needed.",
+            "calculation": "once(pulldata('customers','dealer_office', 'dealer_key', '1'))"
+        },
+        {
+            "type": "text",
+            "name": "dlr_cell",
+            "label": "Dealer Cell Phone",
+            "hint": "Overwrite as needed.",
+            "calculation": "once(pulldata('customers','dealer_cell', 'dealer_key', '1'))"
+        },
+        {
+            "type": "end group",
+            "name": "end_page3a"
+        },
+        {
+            "type": "begin group",
+            "name": "page5",
+            "label": "Page 5"
+        },
+        {
+            "type": "select_one yes_no",
+            "name": "finance",
+            "label": "Finance through American Crystal?",
+            "default": "no"
+        },
+        {
+            "type": "end group",
+            "name": "end_page3b"
+        },
+        {
+            "type": "begin group",
+            "name": "page5b",
+            "label": "Replant Info",
+            "appearance": "field-list",
+            "relevance": "selected(${order_add},'Replant_2020')"
+        },
+        {
+            "type": "select_one rpreason",
+            "name": "rp_reason",
+            "label": "Reason for Crop Loss:",
+            "appearance": "minimal"
+        },
+        {
+            "type": "text",
+            "name": "rp_field_location",
+            "label": "Field/County/Section Location:",
+            "appearance": "note"
+        },
+        {
+            "type": "date",
+            "name": "rp_date_of_loss",
+            "label": "Date of Loss:"
+        },
+        {
+            "type": "select_one variety",
+            "name": "rp_orig_variety",
+            "label": "Original Variety:"
+        },
+        {
+            "type": "select_one lot",
+            "name": "rp_lot_no",
+            "label": "Original Variety Lot Number:",
+            "appearance": "autocomplete search('lot_numbers')"
+        },
+        {
+            "type": "select_one variety",
+            "name": "rp_replant_variety",
+            "label": "Replant Variety:",
+            "appearance": "minimal",
+            "default": "Select_one"
+        },
+        {
+            "type": "date",
+            "name": "rp_orig_plant",
+            "label": "Original Planting Date:"
+        },
+        {
+            "type": "integer",
+            "name": "rp_orig_units",
+            "label": "Original Units Used:"
+        },
+        {
+            "type": "integer",
+            "name": "rp_orig_acres",
+            "label": "Original Acres Planted:"
+        },
+        {
+            "type": "integer",
+            "name": "rp_replant_acres",
+            "label": "Replant Acres:"
+        },
+        {
+            "type": "text",
+            "name": "rp_agriculturist",
+            "label": "Grower's Agriculturist:"
+        },
+        {
+            "type": "end group"
+        },
+        {
+            "type": "begin repeat",
+            "name": "original_order_rpt",
+            "label": "Original/Delivery Order"
+        },
+        {
+            "type": "begin group",
+            "name": "orig_variety_pg",
+            "label": "Variety Info",
+            "appearance": "field-list",
+            "relevance": "${order} ='Order_2020' or ${order} ='Delivery_2020'"
+        },
+        {
+            "type": "text",
+            "name": "contract_no",
+            "label": "Contract Number",
+            "relevance": "${finance}='yes'"
+        },
+        {
+            "type": "select_one variety",
+            "name": "variety",
+            "label": "Variety",
+            "appearance": "minimal",
+            "default": "Select_one",
+            "relevance": "${order} ='Order_2020' or ${order} ='Delivery_2020'"
+        },
+        {
+            "type": "select_one size",
+            "name": "size",
+            "label": "Size",
+            "appearance": "minimal"
+        },
+        {
+            "type": "select_one treatment",
+            "name": "treatment",
+            "label": "Treatment",
+            "appearance": "minimal",
+            "required": "yes",
+            "required_message": "Please select a treatment."
+        },
+        {
+            "type": "note",
+            "name": "treatment_note",
+            "label": "All seed will be treated with Tri-pak.\nReturns allowed up to 12 units or 5% of grower's order -\nwhichever is greater\n "
+        },
+        {
+            "type": "end group",
+            "hint": "\n"
+        },
+        {
+            "type": "begin group",
+            "name": "orig_size_pg",
+            "label": "Size Info",
+            "appearance": "field-list",
+            "relevance": "${order} ='Order_2020' or ${order} ='Delivery_2020'"
+        },
+        {
+            "type": "integer",
+            "name": "unitsmp",
+            "label": "Units Mini-Pellets:",
+            "hint": "Units must be ordered in multiples of 6 to avoid partial pails.",
+            "constraint": ".mod 6 = 0",
+            "constraint message": "Units must be ordered in multiples of 6 to avoid partial pails.",
+            "relevance": "${size}='mp'"
+        },
+        {
+            "type": "integer",
+            "name": "unitsrp",
+            "label": "Units Regular Pellets:",
+            "hint": "Units must be ordered in multiples of 4 to avoid partial pails.",
+            "constraint": ".mod 4 = 0",
+            "constraint message": "Units must be ordered in multiples of 4 to avoid partial pails.",
+            "relevance": "${size}='rp'"
+        },
+        {
+            "type": "integer",
+            "name": "unitslp",
+            "label": "Units Large Pellets:",
+            "hint": "Units must be ordered in multiples of 3 to avoid partial pails.",
+            "constraint": ".mod 3 = 0",
+            "constraint message": "Units must be ordered in multiples of 3 to avoid partial pails.",
+            "relevance": "${size}='lp'"
+        },
+        {
+            "type": "integer",
+            "name": "unitsmpmax",
+            "label": "Units Mini-Pellets (Max Container):",
+            "hint": "Custom fill. Maximum 72 units each Container",
+            "relevance": "${size}='mpmax'"
+        },
+        {
+            "type": "integer",
+            "name": "unitsrpmax",
+            "label": "Units Regular Pellets (Max Container):",
+            "hint": "Custom fill. Maximum 48 units each Container",
+            "relevance": "${size}='rpmax'"
+        },
+        {
+            "type": "integer",
+            "name": "unitslpmax",
+            "label": "Units Large Pellets (Max container):",
+            "hint": "Custom fill. Maximum 24 units each Container",
+            "relevance": "${size}='rpmax'"
+        },
+        {
+            "type": "decimal",
+            "name": "orig_subtotal",
+            "label": "Total Cost Per Unit",
+            "hint": "This number can be edited.",
+            "calculation": "once(if(${treatment}='Tri-pak',if(${size}='mp' or ${size}='mpmax',345,if(${size}='rp' or ${size}='rpmax',365,if(${size}='lp' or ${size}='lpmax',370,0))),if(${treatment}='Tri-pak_45',if(${size}='mp' or ${size}='mpmax',364,if(${size}='rp' or ${size}='rpmax',384,if(${size}='lp' or ${size}='lpmax',389,0))),if(${treatment}='Premium',if(${size}='mp' or ${size}='mpmax',379,if(${size}='rp' or ${size}='rpmax',399,if(${size}='lp' or ${size}='lpmax',404,0))),if(${treatment}='Premium_45',if(${size}='mp' or ${size}='mpmax',398,if(${size}='rp' or ${size}='rpmax',418,if(${size}='lp' or ${size}='lpmax',423,0))),'')))))"
+        },
+        {
+            "type": "note",
+            "name": "price_unit_note",
+            "label": "Price per unit:\nReg. Pellet\nPremium (NipsIt+Tri-pak+Tach 20) $399\nPremium 45 (NipsIt+Tri-pak+Tach 45) $418\nTri-pak  $365\nTri-pak 45 $384\n\nMini Pellet\nPremium (NipsIt+Tri-pak+Tach 20) $379\nPremium 45 (NipsIt+Tri-pak+Tach 45) $398\nTri-pak $345\nTri-pak 45 $364\n\n\nLarge Pellet\nPremium (NipsIt+Tri-pak+Tach 20) $404\nPremium 45 (NipsIt+Tri-pak+Tach 45) $423\nTri-pak $370\nTri-pak 45 $389\n"
+        },
+        {
+            "type": "end group"
+        },
+        {
+            "type": "begin group",
+            "name": "orig_lot_pg",
+            "label": "Lot Number Info",
+            "appearance": "field-list",
+            "relevance": "${order} ='Delivery_2020'"
+        },
+        {
+            "type": "select_one lot",
+            "name": "lot_no",
+            "label": "Lot Number:",
+            "hint": "Enter lot number for this order",
+            "appearance": "autocomplete search('lot_numbers')"
+        },
+        {
+            "type": "end group"
+        },
+        {
+            "type": "begin group",
+            "name": "orig_unit_pg",
+            "label": "Units Info",
+            "appearance": "field-list",
+            "relevance": "${order} ='Order_2020' or ${order} ='Delivery_2020'"
+        },
+        {
+            "type": "integer",
+            "name": "total_units_var",
+            "label": "Number of Units",
+            "calculation": "if(${order} ='Order_2020' or ${order} ='Delivery_2020',if(${size} = 'mp',${unitsmp}, if(${size} = 'rp',${unitsrp},if(${size} = 'lp',${unitslp},if(${size} = 'mpmax', ${unitsmpmax},if(${size} = 'rpmax', ${unitsrpmax},if(${size} = 'lpmax', ${unitslpmax},0)))))),0)"
+        },
+        {
+            "type": "integer",
+            "name": "pails",
+            "label": "Number of pails",
+            "hint": "# pails calculated based on size & units ordered.",
+            "calculation": "if(${size}='mp',round(${unitsmp}*.1667,0),if(${size}='rp',round(${unitsrp}*0.25,0),if(${size}='lp',round(${unitslp}*0.3333,0), if(${size}='mpmax', round(${unitsmpmax} div 72,2), if(${size}='rpmax',round(${unitsrpmax} div 48,2), if(${size}='lpmax',round(${unitslpmax} div 24,2),0))))))"
+        },
+        {
+            "type": "decimal",
+            "name": "total_cost_perunit",
+            "label": "Total Cost Per Unit",
+            "calculation": "if(${order} ='Order_2020' or ${order} ='Delivery_2020',${orig_subtotal},0)"
+        },
+        {
+            "type": "end group"
+        },
+        {
+            "type": "begin group",
+            "name": "orig_subtotal_pg",
+            "label": "Subtotal",
+            "appearance": "field-list"
+        },
+        {
+            "type": "decimal",
+            "name": "variety_subtotal",
+            "label": "Subtotal Order Cost $",
+            "relevance": "${order} ='Order_2020' or ${order} ='Delivery_2020'",
+            "calculation": "if(${order} ='Order_2020' or ${order} ='Delivery_2020',round(${total_cost_perunit}*(${total_units_var}),2),0)"
+        },
+        {
+            "type": "calculate",
+            "name": "total_units",
+            "label": "Final Unit Count (calc)",
+            "calculation": "if(${order} ='Order_2020' or ${order} ='Delivery_2020',${total_units_var},0)"
+        },
+        {
+            "type": "end group"
+        },
+        {
+            "type": "end repeat"
+        },
+        {
+            "type": "begin repeat",
+            "name": "return_order_rpt",
+            "label": "Return Delivery Order",
+            "relevance": "selected(${order_add},'Return_Delivery_2020')"
+        },
+        {
+            "type": "begin group",
+            "name": "ret_variety_pg",
+            "label": "Variety Info",
+            "appearance": "field-list",
+            "relevance": "selected(${order_add},'Return_Delivery_2020')"
+        },
+        {
+            "type": "select_one variety",
+            "name": "ret_variety",
+            "label": "Returned Variety",
+            "appearance": "minimal",
+            "default": "Select_one"
+        },
+        {
+            "type": "select_one treatment",
+            "name": "ret_treatment",
+            "label": "Treatment",
+            "appearance": "minimal",
+            "required": "yes",
+            "required_message": "Please select a treatment."
+        },
+        {
+            "type": "select_one size",
+            "name": "ret_size",
+            "label": "Returned Size",
+            "appearance": "minimal"
+        },
+        {
+            "type": "end group",
+            "hint": "\n"
+        },
+        {
+            "type": "begin group",
+            "name": "ret_size_pg",
+            "label": "Size Info",
+            "appearance": "field-list",
+            "relevance": "selected(${order_add},'Return_Delivery_2020')"
+        },
+        {
+            "type": "integer",
+            "name": "ret_unitsmp",
+            "label": "Units Mini-Pellets:",
+            "hint": "Units must be ordered in multiples of 6 to avoid partial pails.",
+            "constraint": ".mod 6 = 0",
+            "constraint message": "Units must be ordered in multiples of 6 to avoid partial pails.",
+            "relevance": "${ret_size}='mp'"
+        },
+        {
+            "type": "integer",
+            "name": "ret_unitsrp",
+            "label": "Units Regular Pellets:",
+            "hint": "Units must be ordered in multiples of 4 to avoid partial pails.",
+            "constraint": ".mod 4 = 0",
+            "constraint message": "Units must be ordered in multiples of 4 to avoid partial pails.",
+            "relevance": "${ret_size}='rp'"
+        },
+        {
+            "type": "integer",
+            "name": "ret_unitslp",
+            "label": "Units Large Pellets:",
+            "hint": "Units must be ordered in multiples of 3 to avoid partial pails.",
+            "constraint": ".mod 3 = 0",
+            "constraint message": "Units must be ordered in multiples of 3 to avoid partial pails.",
+            "relevance": "${ret_size}='lp'"
+        },
+        {
+            "type": "integer",
+            "name": "ret_unitsmpmax",
+            "label": "Units Mini-Pellets (Max Container):",
+            "hint": "Custom fill. Maximum 72 units each Container",
+            "relevance": "${ret_size}='mpmax'"
+        },
+        {
+            "type": "integer",
+            "name": "ret_unitsrpmax",
+            "label": "Units Regular Pellets (Max Container):",
+            "hint": "Custom fill. Maximum 48 units each Container",
+            "relevance": "${ret_size}='rpmax'"
+        },
+        {
+            "type": "integer",
+            "name": "ret_unitslpmax",
+            "label": "Units Large Pellets (Max container):",
+            "hint": "Custom fill. Maximum 24 units each Container",
+            "relevance": "${ret_size}='rpmax'"
+        },
+        {
+            "type": "decimal",
+            "name": "ret_total_cost_perunit",
+            "label": "Total Cost Per Unit",
+            "calculation": "once(if(${ret_treatment}='Tri-pak',if(${ret_size}='mp' or ${ret_size}='mpmax',345,if(${ret_size}='rp' or ${ret_size}='rpmax',365,if(${ret_size}='lp' or ${ret_size}='lpmax',370,0))),if(${ret_treatment}='Tri-pak_45',if(${ret_size}='mp' or ${ret_size}='mpmax',364,if(${ret_size}='rp' or ${ret_size}='rpmax',384,if(${ret_size}='lp' or ${ret_size}='lpmax',389,0))),if(${ret_treatment}='Premium',if(${ret_size}='mp' or ${ret_size}='mpmax',379,if(${ret_size}='rp' or ${ret_size}='rpmax',399,if(${ret_size}='lp' or ${ret_size}='lpmax',404,0))),if(${ret_treatment}='Premium_45',if(${ret_size}='mp' or ${ret_size}='mpmax',398,if(${ret_size}='rp' or ${ret_size}='rpmax',418,if(${ret_size}='lp' or ${ret_size}='lpmax',423,0))),'')))))"
+        },
+        {
+            "type": "note",
+            "name": "price_unit_ret_note",
+            "label": "Price per unit:\nReg. Pellet\nPremium (NipsIt+Tri-pak+Tach 20) $399\nPremium 45 (NipsIt+Tri-pak+Tach 45) $418\nTri-pak  $365\nTri-pak 45 $384\n\nMini Pellet\nPremium (NipsIt+Tri-pak+Tach 20) $379\nPremium 45 (NipsIt+Tri-pak+Tach 45) $398\nTri-pak $345\nTri-pak 45 $364\n\n\nLarge Pellet\nPremium (NipsIt+Tri-pak+Tach 20) $404\nPremium 45 (NipsIt+Tri-pak+Tach 45) $423\nTri-pak $370\nTri-pak 45 $389"
+        },
+        {
+            "type": "end group"
+        },
+        {
+            "type": "begin group",
+            "name": "ret_lot_pg",
+            "label": "Lot Number Info",
+            "appearance": "field-list",
+            "relevance": "selected(${order_add},'Return_Delivery_2020')"
+        },
+        {
+            "type": "select_one lot",
+            "name": "ret_lot_no",
+            "label": "Lot Number:",
+            "hint": "Enter lot number for this order",
+            "appearance": "autocomplete search('lot_numbers')"
+        },
+        {
+            "type": "end group"
+        },
+        {
+            "type": "begin group",
+            "name": "ret_unit_pg",
+            "label": "Units Info",
+            "appearance": "field-list",
+            "relevance": "selected(${order_add},'Return_Delivery_2020')"
+        },
+        {
+            "type": "integer",
+            "name": "ret_total_units_var",
+            "label": "Number of Returned Units",
+            "calculation": "if(selected(${order_add},'Return_Delivery_2020'),if(${ret_size} = 'mp',${ret_unitsmp}, if(${ret_size} = 'rp',${ret_unitsrp},if(${ret_size} = 'lp',${ret_unitslp},if(${ret_size} = 'mpmax', ${ret_unitsmpmax},if(${ret_size} = 'rpmax', ${ret_unitsrpmax},if(${ret_size} = 'lpmax', ${ret_unitslpmax},0)))))),0)"
+        },
+        {
+            "type": "integer",
+            "name": "ret_pails",
+            "label": "Number of Returned pails",
+            "hint": "# pails calculated based on size & units ordered.",
+            "calculation": "if(selected(${order_add},'Return_Delivery_2020'),if(${ret_size}='mp',round(${ret_unitsmp}*.1667,0),if(${ret_size}='rp',round(${ret_unitsrp}*0.25,0),if(${ret_size}='lp',round(${ret_unitslp}*0.333,0),if(${ret_size}='mpmax',round(${ret_unitsmpmax}div 72,2),if(${ret_size}='rpmax',round(${ret_unitsrpmax}div48,2),if(${ret_size}='lpmax',round(${ret_unitslpmax}div24,2),0)))))),0)"
+        },
+        {
+            "type": "calculate",
+            "name": "ret_orig_subtotal",
+            "calculation": "if(selected(${order_add},'Return_Delivery_2020'),round(${ret_total_cost_perunit}*${ret_total_units_var},2),0)"
+        },
+        {
+            "type": "end group"
+        },
+        {
+            "type": "begin group",
+            "name": "ret_subtotal_pg",
+            "label": "Subtotal",
+            "appearance": "field-list"
+        },
+        {
+            "type": "decimal",
+            "name": "ret_variety_subtotal",
+            "label": "Subtotal Order Cost $",
+            "relevance": "selected(${order_add},'Return_Delivery_2020')",
+            "calculation": "if(selected(${order_add},'Return_Delivery_2020'),round(${ret_total_cost_perunit}*${ret_total_units_var},2),0)"
+        },
+        {
+            "type": "calculate",
+            "name": "ret_total_units",
+            "label": "Final Unit Count (calc)",
+            "calculation": "if(selected(${order_add},'Return_Delivery_2020'),${ret_total_units_var},0)"
+        },
+        {
+            "type": "end group"
+        },
+        {
+            "type": "end repeat"
+        },
+        {
+            "type": "begin group",
+            "name": "page6",
+            "label": "Original/Delivery Totals",
+            "appearance": "field-list",
+            "relevance": "${order} ='Order_2020' or ${order} ='Delivery_2020'"
+        },
+        {
+            "type": "integer",
+            "name": "tot_pails",
+            "label": "Total No. of Pails",
+            "calculation": "if(${order} ='Order_2020' or ${order} ='Delivery_2020',round(sum(${pails}),0),0)"
+        },
+        {
+            "type": "integer",
+            "name": "tot_units",
+            "label": "Total No. of Units",
+            "calculation": "if(${order} ='Order_2020' or ${order} ='Delivery_2020',round(sum(${total_units_var}),0),0)"
+        },
+        {
+            "type": "decimal",
+            "name": "sub_total",
+            "label": "Original/Delivery Subtotal $",
+            "hint": "Without discounts applied.",
+            "calculation": "if(${order} ='Order_2020' or ${order} ='Delivery_2020',round(sum(${variety_subtotal}),2),0)"
+        },
+        {
+            "type": "calculate",
+            "name": "sub_total_calc",
+            "label": "For report",
+            "calculation": "if(${order} ='Order_2020' or ${order} ='Delivery_2020',round(sum(${variety_subtotal}),2),0)"
+        },
+        {
+            "type": "end group"
+        },
+        {
+            "type": "begin group",
+            "name": "page6a",
+            "label": "Return Delivery Totals",
+            "appearance": "field-list",
+            "relevance": "selected(${order_add},'Return_Delivery_2020')"
+        },
+        {
+            "type": "integer",
+            "name": "ret_tot_pails",
+            "label": "Total No. of Returned pails",
+            "calculation": "if(selected(${order_add},'Return_Delivery_2020'),round(sum(${ret_pails})*(-1),0),0)"
+        },
+        {
+            "type": "integer",
+            "name": "ret_tot_units",
+            "label": "Total No. of Returned Units",
+            "calculation": "if(selected(${order_add},'Return_Delivery_2020'),round(sum(${ret_total_units_var})*(-1),0),0)"
+        },
+        {
+            "type": "decimal",
+            "name": "ret_sub_total",
+            "label": "Credit Subtotal $",
+            "calculation": "if(selected(${order_add},'Return_Delivery_2020'),round(sum(${ret_variety_subtotal})*(-1),2),0)"
+        },
+        {
+            "type": "calculate",
+            "name": "ret_sub_total_calc",
+            "label": "For report",
+            "calculation": "if(selected(${order_add},'Return_Delivery_2020'),round(sum(${ret_variety_subtotal})*(-1),2),0)"
+        },
+        {
+            "type": "end group"
+        },
+        {
+            "type": "calculate",
+            "name": "tot_pails_1",
+            "label": "Total pails after return",
+            "calculation": "if(${order} ='Order_2020' and not(selected(${order_add},'Return_Delivery_2020')) or ${order} ='Delivery_2020' and not(selected(${order_add},'Return_Delivery_2020')),${tot_pails},if(${order} ='Order_2020' and selected(${order_add},'Return_Delivery_2020') or ${order} ='Delivery_2020' and selected(${order_add},'Return_Delivery_2020'),${tot_pails}-${ret_tot_pails},0))"
+        },
+        {
+            "type": "calculate",
+            "name": "tot_units_1",
+            "label": "Total units after return",
+            "calculation": "if(${order} ='Order_2020' and not(selected(${order_add},'Return_Delivery_2020')) or ${order} ='Delivery_2020' and not(selected(${order_add},'Return_Delivery_2020')),${tot_units},if(${order} ='Order_2020' and selected(${order_add},'Return_Delivery_2020') or ${order} ='Delivery_2020' and selected(${order_add},'Return_Delivery_2020'),${tot_units}-${ret_tot_units},0))"
+        },
+        {
+            "type": "calculate",
+            "name": "sub_total_1",
+            "label": "Subtotal after return",
+            "calculation": "if(${order} ='Order_2020' and not(selected(${order_add},'Return_Delivery_2020')) or ${order} ='Delivery_2020' and not(selected(${order_add},'Return_Delivery_2020')),${sub_total},if(${order} ='Order_2020' and selected(${order_add},'Return_Delivery_2020') or ${order} ='Delivery_2020' and selected(${order_add},'Return_Delivery_2020'),${sub_total}-${ret_sub_total},0))"
+        },
+        {
+            "type": "begin group",
+            "name": "page7",
+            "label": "Discounts",
+            "appearance": "field-list",
+            "relevance": "${order} ='Order_2020' or ${order} ='Delivery_2020' or selected(${order_add},'Return_Delivery_2020')"
+        },
+        {
+            "type": "select_one discount",
+            "name": "earlypay",
+            "label": "Early Pay Discount",
+            "hint": "Eight percent if paid by Jan 10, 2020; Three percent if paid by May 1, 2020",
+            "appearance": "minimal",
+            "relevance": "${order} ='Order_2020' and ${finance} != 'yes' or ${order} ='Delivery_2020' and ${finance} != 'yes' or selected(${order_add},'Return_Delivery_2020') and ${finance} != 'yes'"
+        },
+        {
+            "type": "note",
+            "name": "disc_note",
+            "label": "Early Pay discount does not apply to financed orders.",
+            "relevance": "${order} ='Order_2020' and ${finance} = 'yes' or ${order} ='Delivery_2020' and ${finance} = 'yes' or selected(${order_add},'Return_Delivery_2020') and ${finance} = 'yes'"
+        },
+        {
+            "type": "end group"
+        },
+        {
+            "type": "begin group",
+            "name": "page8discounts",
+            "label": "Original/Delivery Discounts",
+            "appearance": "field-list",
+            "relevance": "${order} ='Order_2020' or ${order} ='Delivery_2020'"
+        },
+        {
+            "type": "decimal",
+            "name": "earlypay_disc",
+            "label": "Early Pay Discount (Credit $)",
+            "hint": "Eight percent if paid by Jan 10, 2020; Three percent if paid by May 1, 2020",
+            "calculation": "if(${earlypay} ='early_8pct',round(${sub_total}*.08,2),if(${earlypay}='early_3pct',round(${sub_total}*.03,2),0))"
+        },
+        {
+            "type": "calculate",
+            "name": "earlypay_8_disc",
+            "label": "Early Pay Discount 8 pct",
+            "calculation": "round(${sub_total_calc}*.08,2)"
+        },
+        {
+            "type": "calculate",
+            "name": "earlypay_3_disc",
+            "label": "Early Pay Discount 3 pct",
+            "calculation": "round(${sub_total_calc}*.03,2)"
+        },
+        {
+            "type": "end group"
+        },
+        {
+            "type": "begin group",
+            "name": "page8retdiscounts",
+            "label": "Return Discounts",
+            "appearance": "field-list",
+            "relevance": "selected(${order_add},'Return_Delivery_2020')"
+        },
+        {
+            "type": "decimal",
+            "name": "ret_earlypay_disc",
+            "label": "Return Early Pay Discount (Credit $)",
+            "calculation": "if(selected(${order_add},'Return_Delivery_2020') and ${earlypay}='early_8pct',round(${ret_sub_total_calc}*-.08),if(selected(${order_add},'Return_Delivery_2020') and ${earlypay}='early_3pct',round(${ret_sub_total_calc}*-.03),0))"
+        },
+        {
+            "type": "end group"
+        },
+        {
+            "type": "begin group",
+            "name": "page9subtotals",
+            "label": "Original/Delivery Subtotals",
+            "appearance": "field-list",
+            "relevance": "${order} ='Order_2020' or ${order} ='Delivery_2020'"
+        },
+        {
+            "type": "decimal",
+            "name": "earlypay_subtotal",
+            "label": "Subtotal With Early Pay Discount $",
+            "calculation": "if(${order} ='Order_2020' or ${order} ='Delivery_2020',round((${sub_total} -  ${earlypay_disc}),2),0)"
+        },
+        {
+            "type": "end group"
+        },
+        {
+            "type": "begin group",
+            "name": "page9retsubtotals",
+            "label": "Return Subtotals",
+            "appearance": "field-list",
+            "relevance": "selected(${order_add},'Return_Delivery_2020')"
+        },
+        {
+            "type": "decimal",
+            "name": "ret_earlypay_subtotal",
+            "label": "Return Subtotal With Early Pay Discount $",
+            "calculation": "if(selected(${order_add},'Return_Delivery_2020'),round((${ret_sub_total} + ${ret_earlypay_disc}),2),0)"
+        },
+        {
+            "type": "end group"
+        },
+        {
+            "type": "calculate",
+            "name": "subtotal_orig",
+            "label": "Subtotal for original",
+            "calculation": "if(${order} ='Order_2020' or ${order} ='Delivery_2020',round((${sub_total} - ${earlypay_disc}),2),0)"
+        },
+        {
+            "type": "calculate",
+            "name": "subtotal_orig_ret",
+            "label": "Subtotal for returns",
+            "calculation": "if(selected(${order_add},'Return_Delivery_2020'),round((${ret_sub_total} + ${ret_earlypay_disc}),2),0)"
+        },
+        {
+            "type": "calculate",
+            "name": "subtotal_orig-return",
+            "label": "Subtotal for original minus return",
+            "calculation": "if(${order} ='Order_2020' and not(selected(${order_add},'Return_Delivery_2020')) or ${order} ='Delivery_2020' and not(selected(${order_add},'Return_Delivery_2020')),round((${sub_total} - ${earlypay_disc}),2),if(${order} ='Order_2020' and selected(${order_add},'Return_Delivery_2020') or ${order} ='Delivery_2020' and selected(${order_add},'Return_Delivery_2020'),round((${sub_total} - ${earlypay_disc})-(${ret_sub_total}  + ${ret_earlypay_disc}),2),0))"
+        },
+        {
+            "type": "begin group",
+            "name": "page10",
+            "label": "Total Due",
+            "appearance": "field-list",
+            "relevance": "${order} ='Order_2020' or ${order} ='Delivery_2020'"
+        },
+        {
+            "type": "decimal",
+            "name": "earlytot_due",
+            "label": "Total Due (If paid by selected discount date) $",
+            "hint": "Total due, assuming selected discount options.",
+            "relevance": "${order} ='Order_2020' and ${earlypay}='early_8pct' or ${order} ='Delivery_2020' and ${earlypay}='early_3pct'",
+            "calculation": "if(${earlypay}='early_8pct',round(${sub_total}-(${sub_total}*0.08),2),if(${earlypay}='early_3pct',round(${sub_total}-(${sub_total}*0.03),2),${sub_total}))"
+        },
+        {
+            "type": "decimal",
+            "name": "tot_due",
+            "label": "Total Due (with no discounts) $",
+            "hint": "Total due without discount options",
+            "calculation": "${sub_total}"
+        },
+        {
+            "type": "decimal",
+            "name": "total_earlypay1",
+            "label": "Total Due (if paid by Jan. 10, 2020) $",
+            "hint": "for information only; 8 percent discount",
+            "calculation": "round(${sub_total}-(${sub_total}*0.08),2)"
+        },
+        {
+            "type": "decimal",
+            "name": "total_earlypay2",
+            "label": "Total Due (if paid by May 1, 2020) $",
+            "hint": "for information only; 3 percent discount",
+            "calculation": "round(${sub_total}-(${sub_total}*0.03),2)"
+        },
+        {
+            "type": "decimal",
+            "name": "amt_pd",
+            "label": "Amount Paid (Credit $)",
+            "hint": "Payment amount will apply to all order balances.",
+            "default": "0"
+        },
+        {
+            "type": "decimal",
+            "name": "credittot_due",
+            "label": "Customer Credit $",
+            "hint": "Total credit for returned seed",
+            "relevance": "selected(${order_add},'Return_Delivery_2020')",
+            "calculation": "if(selected(${order_add},'Return_Delivery_2020'),${ret_earlypay_subtotal}*(-1),0)"
+        },
+        {
+            "type": "calculate",
+            "name": "credittot_due_calc",
+            "label": "For report",
+            "calculation": "if(selected(${order_add},'Return_Delivery_2020'),${ret_earlypay_subtotal}*(-1),0)"
+        },
+        {
+            "type": "end group"
+        },
+        {
+            "type": "begin group",
+            "name": "page11",
+            "label": "Balance Due",
+            "appearance": "field-list",
+            "relevance": "${order} ='Order_2020' or ${order} ='Delivery_2020'"
+        },
+        {
+            "type": "calculate",
+            "name": "amt_pd_calc",
+            "calculation": "if(${order} ='Order_2020' or ${order} ='Delivery_2020',${amt_pd},0)"
+        },
+        {
+            "type": "decimal",
+            "name": "earlybal_due",
+            "label": "Balance Due before selected Discount Date $",
+            "relevance": "${order} ='Order_2020' and ${earlypay}!='NA' or ${order} ='Delivery_2020' and ${earlypay}!='NA'",
+            "calculation": "if(${order} ='Order_2020' and ${amt_pd}+${credittot_due_calc} <${earlytot_due} or ${order} ='Delivery_2020' and ${amt_pd}+${credittot_due_calc} <${earlytot_due},round((${earlytot_due} - ${amt_pd}-${credittot_due_calc}),2),0)"
+        },
+        {
+            "type": "decimal",
+            "name": "bal_due",
+            "label": "Balance Due after May 1, 2020  $",
+            "relevance": "${order} ='Order_2020' or ${order} ='Delivery_2020'",
+            "calculation": "if(${order} ='Order_2020' and not(selected(${order_add},'Return_Delivery_2020')) and ${amt_pd} != (${earlytot_due}-${credittot_due_calc}) or ${order} ='Delivery_2020' and not(selected(${order_add},'Return_Delivery_2020')) and ${amt_pd} != (${earlytot_due}-${credittot_due_calc}),round(${tot_due} - ${amt_pd},2),if(${order} ='Order_2020' and selected(${order_add},'Return_Delivery_2020') and (${amt_pd}+${credittot_due_calc}) < ${tot_due} and (${amt_pd}+${credittot_due_calc}) !=${earlytot_due} or ${order} ='Delivery_2020' and selected(${order_add},'Return_Delivery_2020') and (${amt_pd}+${credittot_due_calc}) < ${tot_due} and (${amt_pd}+${credittot_due_calc}) !=${earlytot_due},round(${tot_due} - ${amt_pd} - ${credittot_due_calc},2),0))"
+        },
+        {
+            "type": "end group"
+        },
+        {
+            "type": "calculate",
+            "name": "earlybal_due_calc",
+            "label": "Balance Due before Jan. 10 $",
+            "calculation": "if(${order} ='Order_2020' and ${amt_pd}+${credittot_due_calc} <${earlytot_due} or ${order} ='Delivery_2020' and ${amt_pd}+${credittot_due_calc} <${earlytot_due},round((${earlytot_due} - ${amt_pd}-${credittot_due_calc}),2),0)"
+        },
+        {
+            "type": "calculate",
+            "name": "bal_due_calc",
+            "label": "Balance Due after Jan. 10  $",
+            "calculation": "if(${order} ='Order_2020' and not(selected(${order_add},'Return_Delivery_2020')) and ${amt_pd} != (${earlytot_due}-${credittot_due_calc}) or ${order} ='Delivery_2020' and not(selected(${order_add},'Return_Delivery_2020')) and ${amt_pd} != (${earlytot_due}-${credittot_due_calc}),round(${tot_due} - ${amt_pd},2),if(${order} ='Order_2020' and selected(${order_add},'Return_Delivery_2020') and (${amt_pd}+${credittot_due_calc}) < ${tot_due} and (${amt_pd}+${credittot_due_calc}) !=${earlytot_due} or ${order} ='Delivery_2020' and selected(${order_add},'Return_Delivery_2020') and (${amt_pd}+${credittot_due_calc}) < ${tot_due} and (${amt_pd}+${credittot_due_calc}) !=${earlytot_due},round(${tot_due} - ${amt_pd} - ${credittot_due_calc},2),0))"
+        },
+        {
+            "type": "begin repeat",
+            "name": "add_del_rpt",
+            "label": "Additional Delivery Order",
+            "relevance": "selected(${order_add},'Add_Delivery_2020')"
+        },
+        {
+            "type": "begin group",
+            "name": "add_variety_pg",
+            "label": "Variety Info",
+            "appearance": "field-list",
+            "relevance": "selected(${order_add},'Add_Delivery_2020')"
+        },
+        {
+            "type": "select_one variety",
+            "name": "add_variety",
+            "label": "Additional Delivery Variety",
+            "appearance": "minimal",
+            "default": "Select_one"
+        },
+        {
+            "type": "select_one size",
+            "name": "add_size",
+            "label": "Additional Delivery Size",
+            "appearance": "minimal"
+        },
+        {
+            "type": "select_one treatment",
+            "name": "add_treatment",
+            "label": "Treatment",
+            "hint": "All seed will be treated with Tri-pak.\nReturns allowed up to 12 units or 5% of grower's order -\nwhichever is greater",
+            "appearance": "minimal",
+            "required": "yes",
+            "required_message": "Please select a treatment."
+        },
+        {
+            "type": "end group",
+            "hint": "\n"
+        },
+        {
+            "type": "begin group",
+            "name": "add_size_pg",
+            "label": "Size Info",
+            "appearance": "field-list",
+            "relevance": "selected(${order_add},'Add_Delivery_2020')"
+        },
+        {
+            "type": "integer",
+            "name": "add_unitsmp",
+            "label": "Units Mini-Pellets:",
+            "hint": "Units must be ordered in multiples of 6 to avoid partial pails.",
+            "constraint": ".mod 6 = 0",
+            "constraint message": "Units must be ordered in multiples of 6 to avoid partial pails.",
+            "relevance": "${add_size}='mp'"
+        },
+        {
+            "type": "integer",
+            "name": "add_unitsrp",
+            "label": "Units Regular Pellets:",
+            "hint": "Units must be ordered in multiples of 4 to avoid partial pails.",
+            "constraint": ".mod 4 = 0",
+            "constraint message": "Units must be ordered in multiples of 4 to avoid partial pails.",
+            "relevance": "${add_size}='rp'"
+        },
+        {
+            "type": "integer",
+            "name": "add_unitslp",
+            "label": "Units Large Pellets:",
+            "hint": "Units must be ordered in multiples of 3 to avoid partial pails.",
+            "constraint": ".mod 3 = 0",
+            "constraint message": "Units must be ordered in multiples of 3 to avoid partial pails.",
+            "relevance": "${add_size}='lp'"
+        },
+        {
+            "type": "integer",
+            "name": "add_unitsmpmax",
+            "label": "Units Mini-Pellets (Max Container):",
+            "hint": "Custom fill. Maximum 72 units each Container",
+            "relevance": "${add_size}='mpmax'"
+        },
+        {
+            "type": "integer",
+            "name": "add_unitsrpmax",
+            "label": "Units Regular Pellets (Max Container):",
+            "hint": "Custom fill. Maximum 48 units each Container",
+            "relevance": "${add_size}='rpmax'"
+        },
+        {
+            "type": "integer",
+            "name": "add_unitslpmax",
+            "label": "Units Large Pellets (Max container):",
+            "hint": "Custom fill. Maximum 24 units each Container",
+            "relevance": "${add_size}='rpmax'"
+        },
+        {
+            "type": "decimal",
+            "name": "orig_price_unit_var",
+            "label": "Total Cost Per Unit",
+            "calculation": "once(if(${add_treatment}='Tri-pak',if(${add_size}='mp' or ${add_size}='mpmax',345,if(${add_size}='rp' or ${add_size}='rpmax',365,if(${add_size}='lp' or ${add_size}='lpmax',370,0))),if(${add_treatment}='Tri-pak_45',if(${add_size}='mp' or ${add_size}='mpmax',364,if(${add_size}='rp' or ${add_size}='rpmax',384,if(${add_size}='lp' or ${add_size}='lpmax',389,0))),if(${add_treatment}='Premium',if(${add_size}='mp' or ${add_size}='mpmax',379,if(${add_size}='rp' or ${add_size}='rpmax',399,if(${add_size}='lp' or ${add_size}='lpmax',404,0))),if(${add_treatment}='Premium_45',if(${add_size}='mp' or ${add_size}='mpmax',398,if(${add_size}='rp' or ${add_size}='rpmax',418,if(${add_size}='lp' or ${add_size}='lpmax',423,0))),'')))))"
+        },
+        {
+            "type": "note",
+            "name": "price_unit_add_note",
+            "label": "Price per unit:\nReg. Pellet\nPremium (NipsIt+Tri-pak+Tach 20) $399\nPremium 45 (NipsIt+Tri-pak+Tach 45) $418\nTri-pak  $365\nTri-pak 45 $384\n\nMini Pellet\nPremium (NipsIt+Tri-pak+Tach 20) $379\nPremium 45 (NipsIt+Tri-pak+Tach 45) $398\nTri-pak $345\nTri-pak 45 $364\n\n\nLarge Pellet\nPremium (NipsIt+Tri-pak+Tach 20) $404\nPremium 45 (NipsIt+Tri-pak+Tach 45) $423\nTri-pak $370\nTri-pak 45 $389"
+        },
+        {
+            "type": "end group"
+        },
+        {
+            "type": "begin group",
+            "name": "add_lot_pg",
+            "label": "Lot Number Info",
+            "appearance": "field-list",
+            "relevance": "selected(${order_add},'Add_Delivery_2020')"
+        },
+        {
+            "type": "select_one lot",
+            "name": "add_lot_no",
+            "label": "Lot Number:",
+            "hint": "Enter lot number for this order",
+            "appearance": "autocomplete search('lot_numbers')"
+        },
+        {
+            "type": "end group"
+        },
+        {
+            "type": "begin group",
+            "name": "add_unit_pg",
+            "label": "Units Info",
+            "appearance": "field-list",
+            "relevance": "selected(${order_add},'Add_Delivery_2020')"
+        },
+        {
+            "type": "integer",
+            "name": "add_total_units_var",
+            "label": "Number of Units",
+            "calculation": "if(selected(${order_add},'Add_Delivery_2020'),if(${add_size} = 'mp',${add_unitsmp}, if(${add_size} = 'rp',${add_unitsrp},if(${add_size} = 'lp',${add_unitslp},if(${add_size} = 'mpmax', ${add_unitsmpmax},if(${add_size} = 'rpmax', ${add_unitsrpmax},if(${add_size} = 'lpmax', ${add_unitslpmax},0)))))),0)"
+        },
+        {
+            "type": "integer",
+            "name": "add_pails",
+            "label": "Number of Pails",
+            "hint": "# pails calculated based on size & units ordered.",
+            "calculation": "if(${add_size}='mp',round(${add_unitsmp}*.1667,0),if(${add_size}='rp',round(${add_unitsrpmax}*0.25,0),if(${add_size}='lp',round(${add_unitslp}*0.333,0),if(${add_size}='mpmax',round(${add_unitsmpmax}div 72,2),if(${add_size}='rpmax',round(${add_unitsrpmax}div 48,2),if(${add_size}='lpmax',round(${add_unitslpmax}div24,2),0))))))"
+        },
+        {
+            "type": "decimal",
+            "name": "add_total_cost_perunit",
+            "label": "Total Cost Per Unit",
+            "hint": "This number can be edited.\n",
+            "calculation": "if(selected(${order_add},'Add_Delivery_2020'),${orig_price_unit_var},0)"
+        },
+        {
+            "type": "calculate",
+            "name": "add_orig_subtotal",
+            "calculation": "if(selected(${order_add},'Add_Delivery_2020'),round(${add_total_cost_perunit}*${add_total_units_var},2),0)"
+        },
+        {
+            "type": "end group"
+        },
+        {
+            "type": "begin group",
+            "name": "add_subtotal_pg",
+            "label": "Subtotal",
+            "appearance": "field-list"
+        },
+        {
+            "type": "decimal",
+            "name": "add_variety_subtotal",
+            "label": "Subtotal Order Cost $",
+            "relevance": "selected(${order_add},'Add_Delivery_2020')",
+            "calculation": "if(selected(${order_add},'Add_Delivery_2020'),round(${add_total_cost_perunit}*(${add_total_units_var}),2),0)"
+        },
+        {
+            "type": "calculate",
+            "name": "add_total_units",
+            "label": "Final Unit Count (calc)",
+            "calculation": "if(selected(${order_add},'Add_Delivery_2020'),${add_total_units_var},0)"
+        },
+        {
+            "type": "end group"
+        },
+        {
+            "type": "end repeat"
+        },
+        {
+            "type": "begin repeat",
+            "name": "ret_add_del_rpt",
+            "label": "Return Additional Delivery Order",
+            "relevance": "selected(${order_add},'Return_Add_Delivery_2020')"
+        },
+        {
+            "type": "begin group",
+            "name": "ret_add_variety_pg",
+            "label": "Variety Info",
+            "appearance": "field-list",
+            "relevance": "selected(${order_add},'Return_Add_Delivery_2020')"
+        },
+        {
+            "type": "select_one variety",
+            "name": "ret_add_variety",
+            "label": "Return Add'l Delivery Variety",
+            "appearance": "minimal",
+            "default": "Select_one"
+        },
+        {
+            "type": "select_one size",
+            "name": "ret_add_size",
+            "label": "Return Add'l Delivery Size",
+            "appearance": "minimal"
+        },
+        {
+            "type": "select_one treatment",
+            "name": "ret_add_treatment",
+            "label": "Treatment",
+            "hint": "All seed will be treated with Tri-pak.\nReturns allowed up to 12 units or 5% of grower's order -\nwhichever is greater",
+            "appearance": "minimal",
+            "required": "yes",
+            "required_message": "Please select a treatment."
+        },
+        {
+            "type": "end group",
+            "hint": "\n"
+        },
+        {
+            "type": "begin group",
+            "name": "ret_add_size_pg",
+            "label": "Size Info",
+            "appearance": "field-list",
+            "relevance": "selected(${order_add},'Return_Add_Delivery_2020')"
+        },
+        {
+            "type": "integer",
+            "name": "ret_add_unitsmp",
+            "label": "Units Mini-Pellets:",
+            "hint": "Units must be ordered in multiples of 6 to avoid partial pails.",
+            "constraint": ".mod 6 = 0",
+            "constraint message": "Units must be ordered in multiples of 6 to avoid partial pails.",
+            "relevance": "${ret_add_size}='mp'"
+        },
+        {
+            "type": "integer",
+            "name": "ret_add_unitsrp",
+            "label": "Units Regular Pellets:",
+            "hint": "Units must be ordered in multiples of 4 to avoid partial pails.",
+            "constraint": ".mod 4 = 0",
+            "constraint message": "Units must be ordered in multiples of 4 to avoid partial pails.",
+            "relevance": "${ret_add_size}='rp'"
+        },
+        {
+            "type": "integer",
+            "name": "ret_add_unitslp",
+            "label": "Units Large Pellets:",
+            "hint": "Units must be ordered in multiples of 3 to avoid partial pails.",
+            "constraint": ".mod 3 = 0",
+            "constraint message": "Units must be ordered in multiples of 3 to avoid partial pails.",
+            "relevance": "${ret_add_size}='lp'"
+        },
+        {
+            "type": "integer",
+            "name": "ret_add_unitsmpmax",
+            "label": "Units Mini-Pellets (Max Container):",
+            "hint": "Custom fill. Maximum 72 units each Container",
+            "relevance": "${ret_add_size}='mpmax'"
+        },
+        {
+            "type": "integer",
+            "name": "ret_add_unitsrpmax",
+            "label": "Units Regular Pellets (Max Container):",
+            "hint": "Custom fill. Maximum 48 units each Container",
+            "relevance": "${ret_add_size}='rpmax'"
+        },
+        {
+            "type": "integer",
+            "name": "ret_add_unitslpmax",
+            "label": "Units Large Pellets (Max container):",
+            "hint": "Custom fill. Maximum 24 units each Container",
+            "relevance": "${ret_add_size}='rpmax'"
+        },
+        {
+            "type": "decimal",
+            "name": "ret_add_price_unit_var",
+            "label": "Total Cost Per Unit",
+            "calculation": "once(if(${ret_add_treatment}='Tri-pak',if(${ret_add_size}='mp' or ${ret_add_size}='mpmax',345,if(${ret_add_size}='rp' or ${ret_add_size}='rpmax',365,if(${ret_add_size}='lp' or ${ret_add_size}='lpmax',370,0))),if(${ret_add_treatment}='Tri-pak_45',if(${ret_add_size}='mp' or ${ret_add_size}='mpmax',364,if(${ret_add_size}='rp' or ${ret_add_size}='rpmax',384,if(${ret_add_size}='lp' or ${ret_add_size}='lpmax',389,0))),if(${ret_add_treatment}='Premium',if(${ret_add_size}='mp' or ${ret_add_size}='mpmax',379,if(${ret_add_size}='rp' or ${ret_add_size}='rpmax',399,if(${ret_add_size}='lp' or ${ret_add_size}='lpmax',404,0))),if(${ret_add_treatment}='Premium_45',if(${ret_add_size}='mp' or ${ret_add_size}='mpmax',398,if(${ret_add_size}='rp' or ${ret_add_size}='rpmax',418,if(${ret_add_size}='lp' or ${ret_add_size}='lpmax',423,0))),'')))))"
+        },
+        {
+            "type": "note",
+            "name": "price_unit_ret_add_note",
+            "label": "Price per unit:\nReg. Pellet\nPremium (NipsIt+Tri-pak+Tach 20) $399\nPremium 45 (NipsIt+Tri-pak+Tach 45) $418\nTri-pak  $365\nTri-pak 45 $384\n\nMini Pellet\nPremium (NipsIt+Tri-pak+Tach 20) $379\nPremium 45 (NipsIt+Tri-pak+Tach 45) $398\nTri-pak $345\nTri-pak 45 $364\n\n\nLarge Pellet\nPremium (NipsIt+Tri-pak+Tach 20) $404\nPremium 45 (NipsIt+Tri-pak+Tach 45) $423\nTri-pak $370\nTri-pak 45 $389"
+        },
+        {
+            "type": "end group"
+        },
+        {
+            "type": "begin group",
+            "name": "ret_add_lot_pg",
+            "label": "Lot Number Info",
+            "appearance": "field-list",
+            "relevance": "selected(${order_add},'Return_Add_Delivery_2020')"
+        },
+        {
+            "type": "select_one lot",
+            "name": "ret_add_lot_no",
+            "label": "Lot Number:",
+            "hint": "Enter lot number for this order",
+            "appearance": "autocomplete search('lot_numbers')"
+        },
+        {
+            "type": "end group"
+        },
+        {
+            "type": "begin group",
+            "name": "ret_add_unit_pg",
+            "label": "Units Info",
+            "appearance": "field-list",
+            "relevance": "selected(${order_add},'Return_Add_Delivery_2020')"
+        },
+        {
+            "type": "integer",
+            "name": "ret_add_total_units_var",
+            "label": "Number of Returned Units",
+            "calculation": "if(selected(${order_add},'Return_Add_Delivery_2020'),if(${ret_add_size} = 'mp',${ret_add_unitsmp}, if(${ret_add_size} = 'rp',${ret_add_unitsrp},if(${ret_add_size} = 'lp',${ret_add_unitslp},if(${ret_add_size} = 'mpmax', ${ret_add_unitsmpmax},if(${ret_add_size} = 'rpmax', ${ret_add_unitsrpmax},if(${ret_add_size} = 'lpmax', ${ret_add_unitslpmax},0)))))),0)"
+        },
+        {
+            "type": "integer",
+            "name": "ret_add_pails",
+            "label": "Number of Returned pails",
+            "hint": "# pails calculated based on size & units ordered.",
+            "calculation": "if(selected(${order_add},'Return_Add_Delivery_2020'),if(${ret_add_size}='mp',round(${ret_add_unitsmp}*.1667,0),if(${ret_add_size}='rp',round(${ret_add_unitsrp}*0.25,0),if(${ret_add_size}='lp',round(${ret_add_unitslp}*0.333,0),if(${ret_add_size}='mpmax',round(${ret_add_unitsmpmax}div 72,2),if(${ret_add_size}='rpmax',round(${ret_add_unitsrpmax}div 48,2),if(${ret_add_size}='lpmax',round(${ret_add_unitslpmax}div 24,2),0)))))),0)"
+        },
+        {
+            "type": "decimal",
+            "name": "ret_add_total_cost_perunit",
+            "label": "Total Cost Per Unit",
+            "hint": "This number can be edited.  ",
+            "calculation": "if(selected(${order_add},'Return_Add_Delivery_2020'),${ret_add_price_unit_var},0)"
+        },
+        {
+            "type": "calculate",
+            "name": "ret_add_orig_subtotal",
+            "calculation": "if(selected(${order_add},'Return_Add_Delivery_2020'),round(${ret_add_total_cost_perunit}*${ret_add_total_units_var},2),0)"
+        },
+        {
+            "type": "end group"
+        },
+        {
+            "type": "begin group",
+            "name": "ret_add_subtotal_pg",
+            "label": "Subtotal",
+            "appearance": "field-list"
+        },
+        {
+            "type": "decimal",
+            "name": "ret_add_variety_subtotal",
+            "label": "Subtotal Order Cost $",
+            "relevance": "selected(${order_add},'Return_Add_Delivery_2020')",
+            "calculation": "if(selected(${order_add},'Return_Add_Delivery_2020'),round(${ret_add_price_unit_var}*(${ret_add_total_units_var}),2),0)"
+        },
+        {
+            "type": "calculate",
+            "name": "ret_add_total_units",
+            "label": "Final Unit Count (calc)",
+            "calculation": "if(selected(${order_add},'Return_Add_Delivery_2020'),${ret_add_total_units_var},0)"
+        },
+        {
+            "type": "end group"
+        },
+        {
+            "type": "end repeat"
+        },
+        {
+            "type": "begin group",
+            "name": "page6add",
+            "label": "Add'l Delivery Subtotal",
+            "appearance": "field-list",
+            "relevance": "selected(${order_add},'Add_Delivery_2020')"
+        },
+        {
+            "type": "integer",
+            "name": "add_tot_pails",
+            "label": "Total No. of pails",
+            "calculation": "if(selected(${order_add},'Add_Delivery_2020'),round(sum(${add_pails}),0),0)"
+        },
+        {
+            "type": "integer",
+            "name": "add_tot_units",
+            "label": "Total No. of Units",
+            "calculation": "if(selected(${order_add},'Add_Delivery_2020'),round(sum(${add_total_units_var}),0),0)"
+        },
+        {
+            "type": "decimal",
+            "name": "add_sub_total",
+            "label": "Additional Delivery Subtotal $",
+            "calculation": "if(selected(${order_add},'Add_Delivery_2020'),round(sum(${add_variety_subtotal}),2),0)"
+        },
+        {
+            "type": "calculate",
+            "name": "add_sub_total_calc",
+            "label": "For report",
+            "calculation": "if(selected(${order_add},'Add_Delivery_2020'),round(sum(${add_variety_subtotal}),2),0)"
+        },
+        {
+            "type": "end group"
+        },
+        {
+            "type": "begin group",
+            "name": "page6aadd",
+            "label": "Add'l Delivery Return Subototal",
+            "appearance": "field-list",
+            "relevance": "selected(${order_add},'Return_Add_Delivery_2020')"
+        },
+        {
+            "type": "integer",
+            "name": "ret_add_tot_pails",
+            "label": "Total No. of Returned pails",
+            "calculation": "if(selected(${order_add},'Return_Add_Delivery_2020'),round(sum(${ret_add_pails})*(-1),0),0)"
+        },
+        {
+            "type": "integer",
+            "name": "ret_add_tot_units",
+            "label": "Total No. of Returned Units",
+            "calculation": "if(selected(${order_add},'Return_Add_Delivery_2020'),round(sum(${ret_add_total_units_var})*(-1),0),0)"
+        },
+        {
+            "type": "decimal",
+            "name": "ret_add_sub_total",
+            "label": "Credit Subtotal $",
+            "calculation": "if(selected(${order_add},'Return_Add_Delivery_2020'),round(sum(${ret_add_variety_subtotal})*(-1),2),0)"
+        },
+        {
+            "type": "calculate",
+            "name": "ret_add_sub_total_calc",
+            "label": "For report",
+            "calculation": "if(selected(${order_add},'Return_Add_Delivery_2020'),round(sum(${ret_add_variety_subtotal})*(-1),2),0)"
+        },
+        {
+            "type": "end group"
+        },
+        {
+            "type": "calculate",
+            "name": "tot_pails_2",
+            "label": "Total pails after return",
+            "calculation": "if(selected(${order_add},'Add_Delivery_2020') and not(selected(${order_add},'Return_Add_Delivery_2020')),${add_tot_pails},if(selected(${order_add},'Add_Delivery_2020') and selected(${order_add},'Return_Add_Delivery_2020'),${add_tot_pails}-${ret_add_tot_pails},0))"
+        },
+        {
+            "type": "calculate",
+            "name": "tot_units_2",
+            "label": "Total units after return",
+            "calculation": "if(selected(${order_add},'Add_Delivery_2020') and not(selected(${order_add},'Return_Add_Delivery_2020')),${add_tot_units},if(selected(${order_add},'Add_Delivery_2020') and selected(${order_add},'Return_Delivery_2020'),${add_tot_units}-${ret_add_tot_units},0))"
+        },
+        {
+            "type": "calculate",
+            "name": "subtotal_add",
+            "label": "Subtotal for add'l",
+            "calculation": "if(selected(${order_add},'Add_Delivery_2020'),round(${add_sub_total},2),0)"
+        },
+        {
+            "type": "calculate",
+            "name": "subtotal_add_ret",
+            "label": "Subtotal for returns",
+            "calculation": "if(selected(${order_add},'Return_Add_Delivery_2020'),round(${ret_sub_total},2),0)"
+        },
+        {
+            "type": "calculate",
+            "name": "subtotal_add-return",
+            "label": "Subtotal for add'l minus return",
+            "calculation": "if(selected(${order_add},'Add_Delivery_2020') and not(selected(${order_add},'Return_Add_Delivery_2020')),round(${add_sub_total},2),if(selected(${order_add},'Add_Delivery_2020') and selected(${order_add},'Return_Add_Delivery_2020'),round(${add_sub_total}-${ret_add_sub_total},2),0))"
+        },
+        {
+            "type": "begin group",
+            "name": "page10add",
+            "label": "Add'l Delivery Total Due",
+            "appearance": "field-list",
+            "relevance": "selected(${order_add},'Add_Delivery_2020') or selected(${order_add},'Return_Add_Delivery_2020')"
+        },
+        {
+            "type": "decimal",
+            "name": "add_tot_due",
+            "label": "Total Due $",
+            "relevance": "selected(${order_add},'Add_Delivery_2020')",
+            "calculation": "round(${add_sub_total},2)"
+        },
+        {
+            "type": "decimal",
+            "name": "add_amt_pd",
+            "label": "Amount Paid (Credit) $",
+            "default": "0"
+        },
+        {
+            "type": "decimal",
+            "name": "add_credittot_due",
+            "label": "Customer Credit $",
+            "hint": "Total credit for returned seed",
+            "relevance": "selected(${order_add},'Return_Add_Delivery_2020')",
+            "calculation": "if(selected(${order_add},'Return_Add_Delivery_2020'),${ret_add_sub_total}*(-1),0)"
+        },
+        {
+            "type": "calculate",
+            "name": "add_credittot_calc",
+            "label": "For report",
+            "calculation": "if(selected(${order_add},'Return_Add_Delivery_2020'),${ret_add_sub_total}*(-1),0)"
+        },
+        {
+            "type": "end group"
+        },
+        {
+            "type": "begin group",
+            "name": "page11add",
+            "label": "Add'l Delivery Balance Due",
+            "appearance": "field-list",
+            "relevance": "selected(${order_add},'Add_Delivery_2020')"
+        },
+        {
+            "type": "decimal",
+            "name": "note_balance_1",
+            "label": "Balance Due from Original/Delivery $",
+            "calculation": "${bal_due_calc}"
+        },
+        {
+            "type": "decimal",
+            "name": "add_bal_due",
+            "label": "Additional Delivery Balance Due   $",
+            "hint": "Includes Original/Delivery Balance, Amount Paid\nand any Credits, if applicable.",
+            "calculation": "if(selected(${order_add},'Add_Delivery_2020') and not(selected(${order_add},'Return_Add_Delivery_2020')),round(${add_tot_due}+${bal_due_calc}-${add_amt_pd},2),if(selected(${order_add},'Add_Delivery_2020') and selected(${order_add},'Return_Add_Delivery_2020'),round(${add_tot_due}+${bal_due_calc}-${add_credittot_due}-${add_amt_pd},2),0))"
+        },
+        {
+            "type": "end group"
+        },
+        {
+            "type": "calculate",
+            "name": "add_earlybal_due_calc",
+            "calculation": "if(selected(${order_add},'Add_Delivery_2020') or selected(${order_add},'Return_Add_Delivery_2020'),${add_tot_due}-${add_amt_pd},0)"
+        },
+        {
+            "type": "calculate",
+            "name": "add_bal_due_calc",
+            "calculation": "if(selected(${order_add},'Add_Delivery_2020') and not(selected(${order_add},'Return_Add_Delivery_2020')),round(${add_tot_due}-${add_amt_pd},2),if(selected(${order_add},'Add_Delivery_2020') and selected(${order_add},'Return_Add_Delivery_2020'),round(${add_tot_due}-${add_credittot_due}-${add_amt_pd},2),0))"
+        },
+        {
+            "type": "begin repeat",
+            "name": "rep_rpt",
+            "label": "Replant Order",
+            "relevance": "selected(${order_add},'Replant_2020')"
+        },
+        {
+            "type": "begin group",
+            "name": "rep_variety_pg",
+            "label": "Variety Info",
+            "appearance": "field-list",
+            "relevance": "selected(${order_add},'Replant_2020')"
+        },
+        {
+            "type": "select_one variety",
+            "name": "rep_variety",
+            "label": "Additional Delivery Variety",
+            "appearance": "minimal",
+            "default": "Select_one"
+        },
+        {
+            "type": "select_one size",
+            "name": "rep_size",
+            "label": "Additional Delivery Size",
+            "appearance": "minimal"
+        },
+        {
+            "type": "select_one treatment",
+            "name": "rep_treatment",
+            "label": "Treatment",
+            "hint": "All seed will be treated with Tri-pak.\nReturns allowed up to 12 units or 5% of grower's order -\nwhichever is greater",
+            "appearance": "minimal",
+            "required": "yes",
+            "required_message": "Please select a treatment."
+        },
+        {
+            "type": "end group",
+            "hint": "\n"
+        },
+        {
+            "type": "begin group",
+            "name": "rep_size_pg",
+            "label": "Size Info",
+            "appearance": "field-list",
+            "relevance": "selected(${order_add},'Replant_2020')"
+        },
+        {
+            "type": "integer",
+            "name": "rep_unitsmp",
+            "label": "Units Mini-Pellets:",
+            "hint": "Units must be ordered in multiples of 6 to avoid partial pails.",
+            "constraint": ".mod 6 = 0",
+            "constraint message": "Units must be ordered in multiples of 6 to avoid partial pails.",
+            "relevance": "${rep_size}='mp'"
+        },
+        {
+            "type": "integer",
+            "name": "rep_unitsrp",
+            "label": "Units Regular Pellets:",
+            "hint": "Units must be ordered in multiples of 4 to avoid partial pails.",
+            "constraint": ".mod 4 = 0",
+            "constraint message": "Units must be ordered in multiples of 4 to avoid partial pails.",
+            "relevance": "${rep_size}='rp'"
+        },
+        {
+            "type": "integer",
+            "name": "rep_unitslp",
+            "label": "Units Large Pellets:",
+            "hint": "Units must be ordered in multiples of 3 to avoid partial pails.",
+            "constraint": ".mod 3 = 0",
+            "constraint message": "Units must be ordered in multiples of 3 to avoid partial pails.",
+            "relevance": "${rep_size}='lp'"
+        },
+        {
+            "type": "integer",
+            "name": "rep_unitsmpmax",
+            "label": "Units Mini-Pellets (Max Container):",
+            "hint": "Custom fill. Maximum 72 units each Container",
+            "relevance": "${rep_size}='mpmax'"
+        },
+        {
+            "type": "integer",
+            "name": "rep_unitsrpmax",
+            "label": "Units Regular Pellets (Max Container):",
+            "hint": "Custom fill. Maximum 48 units each Container",
+            "relevance": "${rep_size}='rpmax'"
+        },
+        {
+            "type": "integer",
+            "name": "rep_unitslpmax",
+            "label": "Units Large Pellets (Max container):",
+            "hint": "Custom fill. Maximum 24 units each Container",
+            "relevance": "${rep_size}='rpmax'"
+        },
+        {
+            "type": "decimal",
+            "name": "rep_price_unit_var",
+            "label": "Total Cost Per Unit",
+            "hint": "This number can be edited.",
+            "required": "yes",
+            "required_message": "Please enter a cost per unit",
+            "calculation": "once(if(${rep_treatment}='Tri-pak',if(${rep_size}='mp' or ${rep_size}='mpmax',345,if(${rep_size}='rp' or ${rep_size}='rpmax',365,if(${rep_size}='lp' or ${rep_size}='lpmax',370,0))),if(${rep_treatment}='Tri-pak_45',if(${rep_size}='mp' or ${rep_size}='mpmax',364,if(${rep_size}='rp' or ${rep_size}='rpmax',384,if(${rep_size}='lp' or ${rep_size}='lpmax',389,0))),if(${rep_treatment}='Premium',if(${rep_size}='mp' or ${rep_size}='mpmax',379,if(${rep_size}='rp' or ${rep_size}='rpmax',399,if(${rep_size}='lp' or ${rep_size}='lpmax',404,0))),if(${rep_treatment}='Premium_45',if(${rep_size}='mp' or ${rep_size}='mpmax',398,if(${rep_size}='rp' or ${rep_size}='rpmax',418,if(${rep_size}='lp' or ${rep_size}='lpmax',423,0))),'')))))"
+        },
+        {
+            "type": "note",
+            "name": "price_unit_rep_note",
+            "label": "Price per unit:\nReg. Pellet\nPremium (NipsIt+Tri-pak+Tach 20) $399\nPremium 45 (NipsIt+Tri-pak+Tach 45) $418\nTri-pak  $365\nTri-pak 45 $384\n\nMini Pellet\nPremium (NipsIt+Tri-pak+Tach 20) $379\nPremium 45 (NipsIt+Tri-pak+Tach 45) $398\nTri-pak $345\nTri-pak 45 $364\n\n\nLarge Pellet\nPremium (NipsIt+Tri-pak+Tach 20) $404\nPremium 45 (NipsIt+Tri-pak+Tach 45) $423\nTri-pak $370\nTri-pak 45 $389"
+        },
+        {
+            "type": "end group"
+        },
+        {
+            "type": "begin group",
+            "name": "rep_lot_pg",
+            "label": "Lot Number Info",
+            "appearance": "field-list",
+            "relevance": "selected(${order_add},'Replant_2020')"
+        },
+        {
+            "type": "select_one lot",
+            "name": "rep_lot_no",
+            "label": "Lot Number:",
+            "hint": "Enter lot number for this order",
+            "appearance": "autocomplete search('lot_numbers')"
+        },
+        {
+            "type": "end group"
+        },
+        {
+            "type": "begin group",
+            "name": "rep_unit_pg",
+            "label": "Units Info",
+            "appearance": "field-list",
+            "relevance": "selected(${order_add},'Replant_2020')"
+        },
+        {
+            "type": "integer",
+            "name": "rep_total_units_var",
+            "label": "Number of Units",
+            "calculation": "if(selected(${order_add},'Replant_2020'),if(${rep_size} = 'mp',${rep_unitsmp}, if(${rep_size} = 'rp',${rep_unitsrp},if(${rep_size} = 'lp',${rep_unitslp},if(${rep_size} = 'mpmax', ${rep_unitsmpmax},if(${rep_size} = 'rpmax', ${rep_unitsrpmax},if(${rep_size} = 'lpmax', ${rep_unitslpmax},0)))))),0)"
+        },
+        {
+            "type": "integer",
+            "name": "rep_pails",
+            "label": "Number of Pails",
+            "hint": "# pails  calculated based on size & units ordered.",
+            "calculation": "if(${rep_size}='mp',round(${rep_unitsmp}*.1667,0),if(${rep_size}='rp',round(${rep_unitsrp}*0.25,0),if(${rep_size}='lp',round(${rep_unitslp}*0.333,0),if(${rep_size}='mpmax',round(${rep_unitsmpmax}div 72,2),if(${rep_size}='rpmax',round(${rep_unitsrpmax}div 48,2),if(${rep_size}='lpmax',round(${rep_unitslpmax}div 24,2),0))))))"
+        },
+        {
+            "type": "decimal",
+            "name": "rep_total_cost_perunit",
+            "label": "Total Cost Per Unit",
+            "calculation": "if(selected(${order_add},'Replant_2020'),${rep_price_unit_var},0)"
+        },
+        {
+            "type": "calculate",
+            "name": "rep_orig_subtotal",
+            "calculation": "if(selected(${order_add},'Replant_2020'),round(${rep_total_cost_perunit}*${rep_total_units_var},2),0)"
+        },
+        {
+            "type": "end group"
+        },
+        {
+            "type": "begin group",
+            "name": "rep_subtotal_pg",
+            "label": "Subtotal",
+            "appearance": "field-list"
+        },
+        {
+            "type": "decimal",
+            "name": "rep_variety_subtotal",
+            "label": "Subtotal Order Cost $",
+            "relevance": "selected(${order_add},'Replant_2020')",
+            "calculation": "if(selected(${order_add},'Replant_2020'),round(${rep_total_cost_perunit}*(${rep_total_units_var}),2),0)"
+        },
+        {
+            "type": "calculate",
+            "name": "rep_total_units",
+            "label": "Final Unit Count (calc)",
+            "calculation": "if(selected(${order_add},'Replant_2020'),${rep_total_units_var},0)"
+        },
+        {
+            "type": "end group"
+        },
+        {
+            "type": "end repeat"
+        },
+        {
+            "type": "begin repeat",
+            "name": "ret_rep_del_rpt",
+            "label": "Return Replant Order",
+            "relevance": "selected(${order_add},'Return_Replant_2020')"
+        },
+        {
+            "type": "begin group",
+            "name": "ret_rep_variety_pg",
+            "label": "Variety Info",
+            "appearance": "field-list",
+            "relevance": "selected(${order_add},'Return_Replant_2020')"
+        },
+        {
+            "type": "select_one variety",
+            "name": "ret_rep_variety",
+            "label": "Return Replant Variety",
+            "appearance": "minimal",
+            "default": "Select_one"
+        },
+        {
+            "type": "select_one size",
+            "name": "ret_rep_size",
+            "label": "Return Replant Size",
+            "appearance": "minimal"
+        },
+        {
+            "type": "select_one treatment",
+            "name": "ret_rep_treatment",
+            "label": "Treatment",
+            "hint": "Returns allowed up to 12 units or 5% of grower's order -\nwhichever is greater",
+            "appearance": "minimal",
+            "required": "yes",
+            "required_message": "Please select a treatment."
+        },
+        {
+            "type": "end group",
+            "hint": "\n"
+        },
+        {
+            "type": "begin group",
+            "name": "ret_rep_size_pg",
+            "label": "Size Info",
+            "appearance": "field-list",
+            "relevance": "selected(${order_add},'Return_Replant_2020')"
+        },
+        {
+            "type": "integer",
+            "name": "ret_rep_unitsmp",
+            "label": "Units Mini-Pellets:",
+            "hint": "Units must be ordered in multiples of 6 to avoid partial pails.",
+            "constraint": ".mod 6 = 0",
+            "constraint message": "Units must be ordered in multiples of 6 to avoid partial pails.",
+            "relevance": "${ret_rep_size}='mp'"
+        },
+        {
+            "type": "integer",
+            "name": "ret_rep_unitsrp",
+            "label": "Units Regular Pellets:",
+            "hint": "Units must be ordered in multiples of 4 to avoid partial pails.",
+            "constraint": ".mod 4 = 0",
+            "constraint message": "Units must be ordered in multiples of 4 to avoid partial pails.",
+            "relevance": "${ret_rep_size}='rp'"
+        },
+        {
+            "type": "integer",
+            "name": "ret_rep_unitslp",
+            "label": "Units Large Pellets:",
+            "hint": "Units must be ordered in multiples of 3 to avoid partial pails.",
+            "constraint": ".mod 3 = 0",
+            "constraint message": "Units must be ordered in multiples of 3 to avoid partial pails.",
+            "relevance": "${ret_rep_size}='lp'"
+        },
+        {
+            "type": "integer",
+            "name": "ret_rep_unitsmpmax",
+            "label": "Units Mini-Pellets (Max Container):",
+            "hint": "Custom fill. Maximum 72 units each Container",
+            "relevance": "${ret_rep_size}='mpmax'"
+        },
+        {
+            "type": "integer",
+            "name": "ret_rep_unitsrpmax",
+            "label": "Units Regular Pellets (Max Container):",
+            "hint": "Custom fill. Maximum 48 units each Container",
+            "relevance": "${ret_rep_size}='rpmax'"
+        },
+        {
+            "type": "integer",
+            "name": "ret_rep_unitslpmax",
+            "label": "Units Large Pellets (Max container):",
+            "hint": "Custom fill. Maximum 24 units each Container",
+            "relevance": "${ret_rep_size}='rpmax'"
+        },
+        {
+            "type": "decimal",
+            "name": "ret_rep_price_unit_var",
+            "label": "Returned Price Per Unit for ${variety} $",
+            "hint": "This number can be edited.  ",
+            "calculation": "once(if(${ret_rep_treatment}='Tri-pak',if(${ret_rep_size}='mp' or ${ret_rep_size}='mpmax',345,if(${ret_rep_size}='rp' or ${ret_rep_size}='rpmax',365,if(${ret_rep_size}='lp' or ${ret_rep_size}='lpmax',370,0))),if(${ret_rep_treatment}='Tri-pak_45',if(${ret_rep_size}='mp' or ${ret_rep_size}='mpmax',364,if(${ret_rep_size}='rp' or ${ret_rep_size}='rpmax',384,if(${ret_rep_size}='lp' or ${ret_rep_size}='lpmax',389,0))),if(${ret_rep_treatment}='Premium',if(${ret_rep_size}='mp' or ${ret_rep_size}='mpmax',379,if(${ret_rep_size}='rp' or ${ret_rep_size}='rpmax',399,if(${ret_rep_size}='lp' or ${ret_rep_size}='lpmax',404,0))),if(${ret_rep_treatment}='Premium_45',if(${ret_rep_size}='mp' or ${ret_rep_size}='mpmax',398,if(${ret_rep_size}='rp' or ${ret_rep_size}='rpmax',418,if(${ret_rep_size}='lp' or ${ret_rep_size}='lpmax',423,0))),'')))))"
+        },
+        {
+            "type": "end group"
+        },
+        {
+            "type": "begin group",
+            "name": "ret_rep_lot_pg",
+            "label": "Lot Number Info",
+            "appearance": "field-list",
+            "relevance": "selected(${order_add},'Return_Replant_2020')"
+        },
+        {
+            "type": "select_one lot",
+            "name": "ret_rep_lot_no",
+            "label": "Lot Number:",
+            "hint": "Enter lot number for this order",
+            "appearance": "autocomplete search('lot_numbers')"
+        },
+        {
+            "type": "end group"
+        },
+        {
+            "type": "begin group",
+            "name": "ret_rep_unit_pg",
+            "label": "Units Info",
+            "appearance": "field-list",
+            "relevance": "selected(${order_add},'Return_Replant_2020')"
+        },
+        {
+            "type": "integer",
+            "name": "ret_rep_total_units_var",
+            "label": "Number of Returned Units",
+            "calculation": "if(selected(${order_add},'Return_Replant_2020'),if(${ret_rep_size} = 'mp',${ret_rep_unitsmp}, if(${ret_rep_size} = 'rp',${ret_rep_unitsrp},if(${ret_rep_size} = 'lp',${ret_rep_unitslp},if(${ret_rep_size} = 'mpmax', ${ret_rep_unitsmpmax},if(${ret_rep_size} = 'rpmax', ${ret_rep_unitsrpmax},if(${ret_rep_size} = 'lpmax', ${ret_rep_unitslpmax},0)))))),0)"
+        },
+        {
+            "type": "integer",
+            "name": "ret_rep_pails",
+            "label": "Number of Returned Pails",
+            "hint": "# pails calculated based on size & units ordered.",
+            "calculation": "if(selected(${order_add},'Return_Replant_2020'),if(${ret_rep_size}='mp',round(${ret_rep_unitsmp}*.1667,0),if(${ret_rep_size}='rp',round(${ret_rep_unitsrp}*0.25,0),if(${ret_rep_size}='lp',round(${ret_rep_unitslp}*0.333,0),if(${ret_rep_size}='mpmax',round(${ret_rep_unitsmpmax}div 72,2),if(${ret_rep_size}='rpmax',round(${ret_rep_unitsrpmax}div 48,2),if(${ret_rep_size}='lpmax',round(${ret_rep_unitslpmax}div 24,2),0)))))),0)"
+        },
+        {
+            "type": "decimal",
+            "name": "ret_rep_total_cost_perunit",
+            "label": "Total Cost Per Unit",
+            "calculation": "if(selected(${order_add},'Return_Replant_2020'),${rep_price_unit_var},0)"
+        },
+        {
+            "type": "calculate",
+            "name": "ret_rep_orig_subtotal",
+            "calculation": "if(selected(${order_add},'Return_Replant_2020'),round(${ret_rep_price_unit_var}*${ret_rep_total_units_var},2),0)"
+        },
+        {
+            "type": "end group"
+        },
+        {
+            "type": "begin group",
+            "name": "ret_rep_subtotal_pg",
+            "label": "Subtotal",
+            "appearance": "field-list"
+        },
+        {
+            "type": "decimal",
+            "name": "ret_rep_variety_subtotal",
+            "label": "Subtotal Order Cost $",
+            "relevance": "selected(${order_add},'Return_Replant_2020')",
+            "calculation": "if(selected(${order_add},'Return_Replant_2020'),round(${ret_rep_price_unit_var}*(${ret_rep_total_units_var}),2),0)"
+        },
+        {
+            "type": "calculate",
+            "name": "ret_rep_total_units",
+            "label": "Final Unit Count (calc)",
+            "calculation": "if(selected(${order_add},'Return_Replant_2020'),${ret_rep_total_units_var},0)"
+        },
+        {
+            "type": "end group"
+        },
+        {
+            "type": "end repeat"
+        },
+        {
+            "type": "begin group",
+            "name": "page6rep",
+            "label": "Replant Totals ",
+            "appearance": "field-list",
+            "relevance": "selected(${order_add},'Replant_2020')"
+        },
+        {
+            "type": "integer",
+            "name": "rep_tot_pails",
+            "label": "Total No. of Pails",
+            "calculation": "if(selected(${order_add},'Replant_2020'),round(sum(${rep_pails}),0),0)"
+        },
+        {
+            "type": "integer",
+            "name": "rep_tot_units",
+            "label": "Total No. of Units",
+            "calculation": "if(selected(${order_add},'Replant_2020'),round(sum(${rep_total_units_var}),0),0)"
+        },
+        {
+            "type": "decimal",
+            "name": "rep_sub_total",
+            "label": "Replant Subtotal $",
+            "calculation": "if(selected(${order_add},'Replant_2020'),round(sum(${rep_variety_subtotal}),2),0)"
+        },
+        {
+            "type": "calculate",
+            "name": "rep_sub_total_calc",
+            "label": "For report",
+            "calculation": "if(selected(${order_add},'Replant_2020'),round(sum(${rep_variety_subtotal}),2),0)"
+        },
+        {
+            "type": "end group"
+        },
+        {
+            "type": "begin group",
+            "name": "page6arep",
+            "label": "Return Replant Totals",
+            "appearance": "field-list",
+            "relevance": "selected(${order_add},'Return_Replant_2020')"
+        },
+        {
+            "type": "integer",
+            "name": "ret_rep_tot_pails",
+            "label": "Total No. of Returned Pails",
+            "calculation": "if(selected(${order_add},'Return_Replant_2020'),round(sum(${ret_rep_pails})*(-1),0),0)"
+        },
+        {
+            "type": "integer",
+            "name": "ret_rep_tot_units",
+            "label": "Total No. of Returned Units",
+            "calculation": "if(selected(${order_add},'Return_Replant_2020'),round(sum(${ret_rep_total_units_var})*(-1),0),0)"
+        },
+        {
+            "type": "decimal",
+            "name": "ret_rep_sub_total",
+            "label": "Credit Subtotal $",
+            "calculation": "if(selected(${order_add},'Return_Replant_2020'),round(sum(${ret_rep_variety_subtotal})*(-1),2),0)"
+        },
+        {
+            "type": "calculate",
+            "name": "ret_rep_sub_total_calc",
+            "label": "For report",
+            "calculation": "if(selected(${order_add},'Return_Replant_2020'),round(sum(${ret_rep_variety_subtotal})*(-1),2),0)"
+        },
+        {
+            "type": "end group"
+        },
+        {
+            "type": "begin group",
+            "name": "page8repdiscounts",
+            "label": "Replant Discount",
+            "appearance": "field-list",
+            "relevance": "selected(${order_add},'Replant_2020') or selected(${order_add},'Return_Replant_2020')"
+        },
+        {
+            "type": "decimal",
+            "name": "rep_disc",
+            "label": "Replant Discount (Credit $)",
+            "hint": "50% of List Price",
+            "relevance": "selected(${order_add},'Replant_2020')",
+            "calculation": "if(selected(${order_add},'Replant_2020'),round(${rep_sub_total}*(.5),0),0)"
+        },
+        {
+            "type": "decimal",
+            "name": "ret_rep_disc",
+            "label": "Replant Discount (Return $)",
+            "relevance": "selected(${order_add},'Return_Replant_2020')",
+            "calculation": "if(selected(${order_add},'Replant_2020'),round(${ret_rep_sub_total}*(.5)*(-1),0),0)"
+        },
+        {
+            "type": "end group"
+        },
+        {
+            "type": "begin group",
+            "name": "page9repsubtotals",
+            "label": "Replant Subtotal",
+            "appearance": "field-list",
+            "relevance": "selected(${order_add},'Replant_2020') or selected(${order_add},'Return_Replant_2020')"
+        },
+        {
+            "type": "decimal",
+            "name": "rep_subtotal",
+            "label": "Subtotal With Replant Discount $",
+            "relevance": "selected(${order_add},'Replant_2020')",
+            "calculation": "if(selected(${order_add},'Replant_2020'),${rep_sub_total}-${rep_disc},0)"
+        },
+        {
+            "type": "decimal",
+            "name": "ret_rep_subtotal",
+            "label": "Subtotal With Replant Discount (Credit) $",
+            "relevance": "selected(${order_add},'Return_Replant_2020')",
+            "calculation": "if(selected(${order_add},'Return_Replant_2020'),${ret_rep_sub_total}-${ret_rep_disc}*(-1),0)"
+        },
+        {
+            "type": "end group"
+        },
+        {
+            "type": "calculate",
+            "name": "tot_pails_3",
+            "label": "Total pails after return",
+            "calculation": "if(selected(${order_add},'Replant_2020') and not(selected(${order_add},'Return_Replant_2020')),${rep_tot_pails},if(selected(${order_add},'Replant_2020') and selected(${order_add},'Return_Replant_2020'),${rep_tot_pails}-${ret_rep_tot_pails},0))"
+        },
+        {
+            "type": "calculate",
+            "name": "tot_units_3",
+            "label": "Total units after return",
+            "calculation": "if(selected(${order_add},'Replant_2020') and not(selected(${order_add},'Return_Replant_2020')),${rep_tot_units},if(selected(${order_add},'Replant_2020') and selected(${order_add},'Return_2020'),${rep_tot_units}-${ret_rep_tot_units},0))"
+        },
+        {
+            "type": "calculate",
+            "name": "subtotal_rep",
+            "label": "Subtotal for replant",
+            "calculation": "if(selected(${order_add},'Replant_2020'),round(${rep_sub_total},2),0)"
+        },
+        {
+            "type": "calculate",
+            "name": "subtotal_rep_ret",
+            "label": "Subtotal for returns",
+            "calculation": "if(selected(${order_add},'Return_Replant_2020'),round(${ret_sub_total},2),0)"
+        },
+        {
+            "type": "calculate",
+            "name": "subtotal_rep-return",
+            "label": "Subtotal for rep minus return",
+            "calculation": "if(selected(${order_add},'Replant_2020') and not(selected(${order_add},'Return_Replant_2020')),round(${rep_sub_total},2),if(selected(${order_add},'Replant_2020') and selected(${order_add},'Return_Replant_2020'),round(${rep_subtotal}-${ret_rep_sub_total},2),0))"
+        },
+        {
+            "type": "begin group",
+            "name": "page10rep",
+            "label": "Replant Total Due",
+            "appearance": "field-list",
+            "relevance": "selected(${order_add},'Replant_2020') or selected(${order_add},'Return_Replant_2020')"
+        },
+        {
+            "type": "decimal",
+            "name": "rep_tot_due",
+            "label": "Total Due $",
+            "relevance": "selected(${order_add},'Replant_2020')",
+            "calculation": "round(${rep_subtotal},2)"
+        },
+        {
+            "type": "decimal",
+            "name": "rep_amt_pd",
+            "label": "Amount Paid (Credit) $",
+            "default": "0"
+        },
+        {
+            "type": "decimal",
+            "name": "rep_credittot_due",
+            "label": "Customer Credit $",
+            "hint": "Total credit for returned seed",
+            "relevance": "selected(${order_add},'Return_Replant_2020')",
+            "calculation": "if(selected(${order_add},'Return_Replant_2020'),${ret_rep_subtotal}*(-1),0)"
+        },
+        {
+            "type": "calculate",
+            "name": "rep_credittot_calc",
+            "label": "For report",
+            "calculation": "if(selected(${order_add},'Return_Replant_2020'),${ret_rep_subtotal}*(-1),0)"
+        },
+        {
+            "type": "end group"
+        },
+        {
+            "type": "begin group",
+            "name": "page11rep",
+            "label": "Replant Balance Due",
+            "appearance": "field-list",
+            "relevance": "selected(${order_add},'Replant_2020')"
+        },
+        {
+            "type": "decimal",
+            "name": "note_balance_2",
+            "label": "Balance From Original/Delivery/Add'l Delivery $",
+            "calculation": "if(selected(${order_add},'Add_Delivery_2020') or selected(${order_add},'Return_Add_Delivery_2020'),${add_bal_due_calc},${bal_due_calc})"
+        },
+        {
+            "type": "decimal",
+            "name": "rep_bal_due",
+            "label": "Replant Balance Due   $",
+            "hint": "Includes Original/Delivery/Add'l Delivery Balance, Amount Paid\nand any Credits, if applicable.",
+            "calculation": "if(selected(${order_add},'Replant_2020') and not(selected(${order_add},'Return_Replant_2020')),round(${rep_tot_due} + ${add_bal_due_calc}+${bal_due_calc}-${rep_amt_pd},2),if(selected(${order_add},'Replant_2020') and selected(${order_add},'Return_Replant_2020'),round(${rep_tot_due} + ${add_bal_due_calc}+ ${bal_due_calc}-${rep_credittot_calc}-${rep_amt_pd},2),0))"
+        },
+        {
+            "type": "end group"
+        },
+        {
+            "type": "calculate",
+            "name": "rep_bal_due_calc",
+            "label": "For report",
+            "calculation": "if(selected(${order_add},'Replant_2020') and not(selected(${order_add},'Return_Replant_2020')),round(${rep_tot_due} -${rep_amt_pd},2),if(selected(${order_add},'Replant_2020') and selected(${order_add},'Return_Replant_2020'),round(${rep_tot_due} -${rep_credittot_calc}-${rep_amt_pd},2),0))"
+        },
+        {
+            "type": "calculate",
+            "name": "tot_due_allcalc",
+            "label": "For summary",
+            "calculation": "if(not(selected(${order_add},'Add_Delivery_2020')) and not(selected(${order_add},'Return_Add_Delivery_2020')) and not(selected(${order_add},'Replant_2020')) and not(selected(${order_add},'Return_Replant_2020')),${tot_due}-${credittot_due},if(selected(${order_add},'Add_Delivery_2020') and not(selected(${order_add},'Replant_2020')) and not(selected(${order_add},'Return_Replant_2020')) or selected(${order_add},'Return_Add_Delivery_2020') and not(selected(${order_add},'Replant_2020')) and not(selected(${order_add},'Return_Replant_2020')),${tot_due}-${credittot_due}+${add_tot_due}-${add_credittot_due},if(selected(${order_add},'Replant_2020') and not(selected(${order_add},'Add_Delivery_2020')) and not(selected(${order_add},'Return_Add_Delivery_2020')) or selected(${order_add},'Return_Replant_2020') and not(selected(${order_add},'Add_Delivery_2020')) and not(selected(${order_add},'Return_Add_Delivery_2020')),${tot_due}-${credittot_due}+${rep_tot_due}-${rep_credittot_due},${tot_due}-${credittot_due}+${add_tot_due}-${add_credittot_due}+${rep_tot_due}-${rep_credittot_due})))"
+        },
+        {
+            "type": "calculate",
+            "name": "tot_credittot_allcalc",
+            "label": "For summary",
+            "calculation": "if(not(selected(${order_add},'Add_Delivery_2020')) and not(selected(${order_add},'Return_Add_Delivery_2020')) and not(selected(${order_add},'Replant_2020')) and not(selected(${order_add},'Return_Replant_2020')),${credittot_due},if(selected(${order_add},'Add_Delivery_2020') and not(selected(${order_add},'Replant_2020')) and not(selected(${order_add},'Return_Replant_2020')) or selected(${order_add},'Return_Add_Delivery_2020') and not(selected(${order_add},'Replant_2020')) and not(selected(${order_add},'Return_Replant_2020')),${credittot_due}+${add_credittot_due},if(selected(${order_add},'Replant_2020') and not(selected(${order_add},'Add_Delivery_2020')) and not(selected(${order_add},'Return_Add_Delivery_2020')) or selected(${order_add},'Return_Replant_2020') and not(selected(${order_add},'Add_Delivery_2020')) and not(selected(${order_add},'Return_Add_Delivery_2020')),${credittot_due}+${rep_credittot_due},${credittot_due}+${add_credittot_due}+${rep_credittot_due})))"
+        },
+        {
+            "type": "calculate",
+            "name": "earlybal_due_finalcalc",
+            "label": "For report - total balance with Early Pay",
+            "calculation": "if(not(selected(${order_add},'Replant_2020')) and not(selected(${order_add},'Return_Replant_2020')) and not(selected(${order_add},'Add_Delivery_2020')) and not(selected(${order_add},'Return_Add_Delivery_2020')),${earlybal_due},if(selected(${order_add},'Add_Delivery_2020') and not(selected(${order_add},'Replant_2020')) and not(selected(${order_add},'Return_Replant_2020')) or selected(${order_add},'Return_Add_Delivery_2020') and not(selected(${order_add},'Replant_2020')) and not(selected(${order_add},'Return_Replant_2020')),${add_bal_due}-${earlypay_disc},${rep_bal_due}-${earlypay_disc}))"
+        },
+        {
+            "type": "calculate",
+            "name": "bal_due_finalcalc",
+            "label": "For report - total balance after Early Pay",
+            "calculation": "if(not(selected(${order_add},'Replant_2020')) and not(selected(${order_add},'Return_Replant_2020')) and not(selected(${order_add},'Add_Delivery_2020')) and not(selected(${order_add},'Return_Add_Delivery_2020')),${bal_due},if(selected(${order_add},'Add_Delivery_2020') and not(selected(${order_add},'Replant_2020')) and not(selected(${order_add},'Return_Replant_2020')) or selected(${order_add},'Return_Add_Delivery_2020') and not(selected(${order_add},'Replant_2020')) and not(selected(${order_add},'Return_Replant_2020')),${add_bal_due},${rep_bal_due}))"
+        },
+        {
+            "type": "calculate",
+            "name": "amt_pd_all",
+            "label": "For report - total amount paid",
+            "calculation": "if(not(selected(${order_add},'Add_Delivery_2020')) and not(selected(${order_add},'Return_Add_Delivery_2020')) and not(selected(${order_add},'Replant_2020')) and not(selected(${order_add},'Return_Replant_2020')),${amt_pd},if(selected(${order_add},'Add_Delivery_2020') and not(selected(${order_add},'Replant_2020')) and not(selected(${order_add},'Return_Replant_2020')) or selected(${order_add},'Return_Add_Delivery_2020')and not(selected(${order_add},'Replant_2020')) and not(selected(${order_add},'Return_Replant_2020')),${amt_pd}+${add_amt_pd},${amt_pd}+${add_amt_pd}+${rep_amt_pd}))"
+        },
+        {
+            "type": "begin group",
+            "name": "pagesignature",
+            "label": "Signatures",
+            "appearance": "field-list"
+        },
+        {
+            "type": "note",
+            "name": "replant_Sig",
+            "label": "Acknowledge Replant/Crop Loss",
+            "hint": "I am asking for a replant discount to replace acres\nplanted this season that were damaged or lost. \nI understand I will need to submit a crop loss\nreport to my Holly Dealer. I hereby acknowledge\nthat I have read and completed the required \ndocumentation for a replant discount and that I \nmeet the replant discount terms.",
+            "relevance": "selected(${order_add},'Replant_2020')"
+        },
+        {
+            "type": "image",
+            "name": "customer_sig",
+            "label": "Customer Signature",
+            "appearance": "signature"
+        },
+        {
+            "type": "image",
+            "name": "sales_rep_sig",
+            "label": "Sales Rep Signature",
+            "appearance": "signature"
+        },
+        {
+            "type": "end group"
+        },
+        {
+            "type": "begin group",
+            "name": "page12summary",
+            "label": "Summary",
+            "appearance": "field-list"
+        },
+        {
+            "type": "note",
+            "name": "yfinance",
+            "label": "Finance?                                       ${finance}",
+            "relevance": "${order} ='Order_2020' or ${order} ='Delivery_2020'"
+        },
+        {
+            "type": "note",
+            "name": "ytotunits",
+            "label": "Total Units Ordered:                  ${tot_units}",
+            "relevance": "${order} ='Order_2020' or ${order} ='Delivery_2020'"
+        },
+        {
+            "type": "note",
+            "name": "ycreditunits",
+            "label": "Total Units Returned:                ${ret_tot_units}",
+            "relevance": "selected(${order_add},'Return_Delivery_2020')"
+        },
+        {
+            "type": "note",
+            "name": "ypails",
+            "label": "Total Pails Ordered:                 ${tot_pails}",
+            "relevance": "${order} ='Order_2020' or ${order} ='Delivery_2020'"
+        },
+        {
+            "type": "note",
+            "name": "ycreditpails",
+            "label": "Total Pails Returned:                ${ret_tot_pails}",
+            "relevance": "selected(${order_add},'Return_Delivery_2020')"
+        },
+        {
+            "type": "note",
+            "name": "ysubtotunits",
+            "label": "Order/Delivery Subtotal:                                      $${sub_total}",
+            "hint": "Before discounts.",
+            "relevance": "${order} ='Order_2020' or ${order} ='Delivery_2020'"
+        },
+        {
+            "type": "note",
+            "name": "yretsubtotunits",
+            "label": "Return Delivery Subtotal:                                      $${ret_sub_total}",
+            "hint": "Before discounts.",
+            "relevance": "selected(${order_add},'Return_Delivery_2020')"
+        },
+        {
+            "type": "note",
+            "name": "yepaydiscamt",
+            "label": "Early Pay Discount:          ($${earlypay_disc})",
+            "hint": "Early Pay discount does not apply to financed orders.\nCheck must be post marked by selected discount date to qualify for Early Pay Discount",
+            "relevance": "${order} ='Order_2020' or ${order} ='Delivery_2020'"
+        },
+        {
+            "type": "note",
+            "name": "yretpaydiscamt",
+            "label": "Return Early Pay Discount:          ($${ret_earlypay_disc})",
+            "hint": "Early Pay discount does not apply to financed orders.\nCheck must be post marked by discount date  to qualify for Early Pay Discount",
+            "relevance": "selected(${order_add},'Return_Delivery_2020')"
+        },
+        {
+            "type": "note",
+            "name": "yepaysubtot",
+            "label": "Subtotal with Early Pay Discount:                                     $${earlypay_subtotal}",
+            "relevance": "${order} ='Order_2020' or ${order} ='Delivery_2020'"
+        },
+        {
+            "type": "note",
+            "name": "yretpaysubtot",
+            "label": "Return Subtotal with Early Pay Discount:                                     $${ret_earlypay_subtotal}",
+            "relevance": "selected(${order_add},'Return_Delivery_2020')"
+        },
+        {
+            "type": "note",
+            "name": "yvoltotdue",
+            "label": "TOTAL DUE if paid by discount date:   $${earlytot_due}",
+            "hint": "Includes cost of seed with all discounts applied.",
+            "relevance": "${order} ='Order_2020' or ${order} ='Delivery_2020'"
+        },
+        {
+            "type": "note",
+            "name": "yearlytotdue",
+            "label": "TOTAL DUE after discount date:   $${tot_due}",
+            "relevance": "${order} ='Order_2020' or ${order} ='Delivery_2020'"
+        },
+        {
+            "type": "note",
+            "name": "ytotcredit",
+            "label": "TOTAL CREDIT:   $${credittot_due}",
+            "hint": "Amount due customer",
+            "relevance": "selected(${order_add},'Return_Delivery_2020')"
+        },
+        {
+            "type": "note",
+            "name": "yaddtotunits",
+            "label": "Total Units Additional Delivery:                  ${add_tot_units}",
+            "relevance": "selected(${order_add},'Add_Delivery_2020')"
+        },
+        {
+            "type": "note",
+            "name": "yaddcreditunits",
+            "label": "Total Units Add'l Delivery Returned:                ${ret_add_tot_units}",
+            "relevance": "selected(${order_add},'Return_Add_Delivery_2020')"
+        },
+        {
+            "type": "note",
+            "name": "yaddpails",
+            "label": "Total Pails Additional Delivery:                 ${add_tot_pails}",
+            "relevance": "selected(${order_add},'Add_Delivery_2020')"
+        },
+        {
+            "type": "note",
+            "name": "yaddcreditpails",
+            "label": "Total Pails Add'l Delivery Returned:                ${ret_add_tot_pails}",
+            "relevance": "selected(${order_add},'Return_Add_Delivery_2020')"
+        },
+        {
+            "type": "note",
+            "name": "yaddsubtotunits",
+            "label": "Additional Delivery Subtotal:                                      $${add_sub_total}",
+            "relevance": "selected(${order_add},'Add_Delivery_2020')"
+        },
+        {
+            "type": "note",
+            "name": "yretaddsubtotunits",
+            "label": "Return Add'l Delivery Subtotal:                                      $(${ret_add_sub_total})",
+            "relevance": "selected(${order_add},'Return_Add_Delivery_2020')"
+        },
+        {
+            "type": "note",
+            "name": "yaddtotdue",
+            "label": "TOTAL DUE:   $${add_tot_due}",
+            "relevance": "selected(${order_add},'Add_Delivery_2020')"
+        },
+        {
+            "type": "note",
+            "name": "yaddtotcredit",
+            "label": "Add'l Delivery TOTAL CREDIT:   $${add_credittot_due}",
+            "hint": "Amount due customer",
+            "relevance": "selected(${order_add},'Return_Add_Delivery_2020')"
+        },
+        {
+            "type": "note",
+            "name": "yreptotunits",
+            "label": "Total Units Replant:                  ${rep_tot_units}",
+            "relevance": "selected(${order_add},'Replant_2020')"
+        },
+        {
+            "type": "note",
+            "name": "yrepcreditunits",
+            "label": "Total Units Replant Return:                ${ret_rep_tot_units}",
+            "relevance": "selected(${order_add},'Return_Replant_2020')"
+        },
+        {
+            "type": "note",
+            "name": "yreppails",
+            "label": "Total Pails Replant:                 ${rep_tot_pails}",
+            "relevance": "selected(${order_add},'Replant_2020')"
+        },
+        {
+            "type": "note",
+            "name": "yrepcreditpails",
+            "label": "Total Pails Replant Returned:                ${ret_rep_tot_pails}",
+            "relevance": "selected(${order_add},'Return_Replant_2020')"
+        },
+        {
+            "type": "note",
+            "name": "yrepsubtot",
+            "label": "Replant Subtotal:                                      $${rep_sub_total}",
+            "hint": "Before discounts.",
+            "relevance": "selected(${order_add},'Replant_2020')"
+        },
+        {
+            "type": "note",
+            "name": "yretrepsubtot",
+            "label": "Return Replant Subtotal:                            ($${ret_rep_sub_total})",
+            "relevance": "selected(${order_add},'Return_Replant_2020')"
+        },
+        {
+            "type": "note",
+            "name": "yrepdscamt",
+            "label": "Replant Discount:                                    ($${rep_disc})",
+            "hint": "50% of List Price",
+            "relevance": "selected(${order_add},'Replant_2020')"
+        },
+        {
+            "type": "note",
+            "name": "yretrepdscamt",
+            "label": "Return Replant Discount:                     ($${ret_rep_disc})",
+            "hint": "50% of List Price",
+            "relevance": "selected(${order_add},'Return_Replant_2020')"
+        },
+        {
+            "type": "note",
+            "name": "yreptotdue",
+            "label": "TOTAL DUE:   $${rep_tot_due}",
+            "relevance": "selected(${order_add},'Replant_2020')"
+        },
+        {
+            "type": "note",
+            "name": "yreptotcredit",
+            "label": "Replant TOTAL CREDIT:   $${rep_credittot_due}",
+            "hint": "Amount due customer",
+            "relevance": "selected(${order_add},'Return_Replant_2020')"
+        },
+        {
+            "type": "note",
+            "name": "ytotdueall",
+            "label": "TOTAL DUE for all orders:        $${tot_due_allcalc}",
+            "hint": "Includes all add-on order totals and credits.",
+            "relevance": "selected(${order_add},'Replant_2020') or selected(${order_add},'Return_Replant_2020') or selected(${order_add},'Add_Delivery_2020') or selected(${order_add},'Return_Add_Delivery_2020')"
+        },
+        {
+            "type": "note",
+            "name": "yamtpd",
+            "label": "Amount Paid:    ($${amt_pd_all})"
+        },
+        {
+            "type": "note",
+            "name": "yearlyamtdue",
+            "label": "BALANCE DUE if paid by Jan. 10:   $${earlybal_due_finalcalc}"
+        },
+        {
+            "type": "note",
+            "name": "yamtdue",
+            "label": "BALANCE DUE after Jan. 10:   $${bal_due_finalcalc}"
+        },
+        {
+            "type": "text",
+            "name": "fieldman",
+            "label": "Fieldman Name:",
+            "hint": "If financing through American Crystal",
+            "relevance": "${finance}='yes' and ${order} = 'Order_2020' or ${finance}='yes' and ${order} = 'Delivery_2020'"
+        },
+        {
+            "type": "text",
+            "name": "Notes",
+            "label": "Order Notes",
+            "hint": "End of Order Form.  Enter any additional notes.",
+            "appearance": "note"
+        },
+        {
+            "type": "end group",
+            "name": "end_page12summary"
+        },
+        {
+            "type": "begin group",
+            "name": "page13email",
+            "label": "Email",
+            "appearance": "field-list"
+        },
+        {
+            "type": "select_one save",
+            "name": "form_complete",
+            "label": "Do you want this order to be emailed once it is submitted?",
+            "hint": "Reminder for Strider App Users: \nOrders will not be emailed or saved to the Strider database until they have\nbeen submitted through the \"Send Forms In\" section of the app.",
+            "appearance": "minimal",
+            "default": "Send_customer"
+        },
+        {
+            "type": "text",
+            "name": "AUTO_EMAIL_TO",
+            "label": "If you are editing a previously saved form, remember to check the\n\"Resend Emailed Report\" box at the bottom of this page or the report won't be sent!\n\nEnter any additional email recipients in the blank text box.",
+            "hint": "Enter any additional email recipients\nwith a space between mutliple email addresses.",
+            "appearance": "note"
+        },
+        {
+            "type": "end group"
+        },
+        {
+            "type": "calculate",
+            "name": "AUTO_EMAIL_BCC",
+            "label": "Email Report To",
+            "calculation": "if(${form_complete}='Send_customer',concat(pulldata('customers','dealer_email', 'dealer_key', '1'),\" \",${customer_email}),if(${form_complete}='Send',pulldata('customers','dealer_email', 'dealer_key', '1'),''))"
+        }
+    ],
+    "choices": [
+        {
+            "list_name": "yes_no",
+            "name": "yes",
+            "label": "Yes"
+        },
+        {
+            "list_name": "yes_no",
+            "name": "no",
+            "label": "No"
+        },
+        {
+            "list_name": "order",
+            "name": "Order_2020",
+            "label": "2020 Seed Order"
+        },
+        {
+            "list_name": "order",
+            "name": "Delivery_2020",
+            "label": "Delivery"
+        },
+        {
+            "list_name": "addOrder",
+            "name": "Return_Delivery_2020",
+            "label": "Return Delivery"
+        },
+        {
+            "list_name": "addOrder",
+            "name": "Add_Delivery_2020",
+            "label": "Additional Delivery"
+        },
+        {
+            "list_name": "addOrder",
+            "name": "Return_Add_Delivery_2020",
+            "label": "Return Additional Delivery"
+        },
+        {
+            "list_name": "addOrder",
+            "name": "Replant_2020",
+            "label": "Replant"
+        },
+        {
+            "list_name": "addOrder",
+            "name": "Return_Replant_2020",
+            "label": "Return Replant"
+        },
+        {
+            "list_name": "finance",
+            "name": "yes",
+            "label": "Yes"
+        },
+        {
+            "list_name": "finance",
+            "name": "no",
+            "label": "No"
+        },
+        {
+            "list_name": "agents",
+            "name": "agent_key",
+            "label": "agent"
+        },
+        {
+            "list_name": "customers",
+            "name": "customer_key",
+            "label": "customer"
+        },
+        {
+            "list_name": "variety",
+            "name": "SX_1887",
+            "label": "SX 1887"
+        },
+        {
+            "list_name": "variety",
+            "name": "SX_1888",
+            "label": "SX 1888"
+        },
+        {
+            "list_name": "variety",
+            "name": "SX_Bronco",
+            "label": "SX Bronco"
+        },
+        {
+            "list_name": "variety",
+            "name": "SX_Canyon",
+            "label": "SX Canyon"
+        },
+        {
+            "list_name": "variety",
+            "name": "SX_Marathon",
+            "label": "SX Marathon"
+        },
+        {
+            "list_name": "variety",
+            "name": "SX_8869",
+            "label": "SX 8869"
+        },
+        {
+            "list_name": "variety",
+            "name": "Competitor_Replant",
+            "label": "Competitor Replant"
+        },
+        {
+            "list_name": "size",
+            "name": "mp",
+            "label": "MP"
+        },
+        {
+            "list_name": "size",
+            "name": "rp",
+            "label": "RP"
+        },
+        {
+            "list_name": "size",
+            "name": "lp",
+            "label": "LP"
+        },
+        {
+            "list_name": "size",
+            "name": "mpmax",
+            "label": "MP Max"
+        },
+        {
+            "list_name": "size",
+            "name": "rpmax",
+            "label": "RP Max"
+        },
+        {
+            "list_name": "size",
+            "name": "lpmax",
+            "label": "LP Max"
+        },
+        {
+            "list_name": "discount",
+            "name": "NA",
+            "label": "NA"
+        },
+        {
+            "list_name": "discount",
+            "name": "early_8pct",
+            "label": "8%; Pay by Jan. 10"
+        },
+        {
+            "list_name": "discount",
+            "name": "early_3pct",
+            "label": "3%; Pay by May 1"
+        },
+        {
+            "list_name": "rpreason",
+            "name": "Heat",
+            "label": "Heat"
+        },
+        {
+            "list_name": "rpreason",
+            "name": "Drought",
+            "label": "Drought"
+        },
+        {
+            "list_name": "rpreason",
+            "name": "Freeze/Frost",
+            "label": "Freeze, Frost"
+        },
+        {
+            "list_name": "rpreason",
+            "name": "Wind",
+            "label": "Wind"
+        },
+        {
+            "list_name": "rpreason",
+            "name": "Stand/Emergence",
+            "label": "Stand/Emergence"
+        },
+        {
+            "list_name": "rpreason",
+            "name": "Flood",
+            "label": "Flood"
+        },
+        {
+            "list_name": "rpreason",
+            "name": "Pests/Insects/Disease",
+            "label": "Pests/Insects/Disease"
+        },
+        {
+            "list_name": "rpreason",
+            "name": "Hail",
+            "label": "Hail"
+        },
+        {
+            "list_name": "rpreason",
+            "name": "Salt",
+            "label": "Salt"
+        },
+        {
+            "list_name": "lot",
+            "name": "lot_key",
+            "label": "lot_key"
+        },
+        {
+            "list_name": "save",
+            "name": "SaveforLater",
+            "label": "No - Save and do not email"
+        },
+        {
+            "list_name": "save",
+            "name": "Send",
+            "label": "Yes - Save and email to office"
+        },
+        {
+            "list_name": "save",
+            "name": "Send_customer",
+            "label": "Yes - Save and email to office and customer"
+        },
+        {
+            "list_name": "contact",
+            "name": "Correct",
+            "label": "Correct Contact Info"
+        },
+        {
+            "list_name": "contact",
+            "name": "New_Info",
+            "label": "Add/Edit Contact Info"
+        },
+        {
+            "list_name": "treatment",
+            "name": "Premium",
+            "label": "Premium"
+        },
+        {
+            "list_name": "treatment",
+            "name": "Premium_45",
+            "label": "Premium 45"
+        },
+        {
+            "list_name": "treatment",
+            "name": "Tri-pak",
+            "label": "Tri-pak"
+        },
+        {
+            "list_name": "treatment",
+            "name": "Tri-pak_45",
+            "label": "Tri-pak 45"
+        },
+        {
+            "list_name": "custmonsantoid",
+            "name": "Monsanto_Tech_ID_-_00041",
+            "label": "Monsanto_Tech_ID_-_00041",
+            "customer": "0"
+        },
+        {
+            "list_name": "custmonsantoid",
+            "name": "Monsanto_Tech_ID_-_00042",
+            "label": "Monsanto_Tech_ID_-_00042",
+            "customer": "0"
+        },
+        {
+            "list_name": "custmonsantoid",
+            "name": "Monsanto_Tech_ID_-_00043",
+            "label": "Monsanto_Tech_ID_-_00043",
+            "customer": "0"
+        },
+        {
+            "list_name": "custmonsantoid",
+            "name": "Monsanto_Tech_ID_-_00044",
+            "label": "Monsanto_Tech_ID_-_00044",
+            "customer": "0"
+        },
+        {
+            "list_name": "custmonsantoid",
+            "name": "Monsanto_Tech_ID_-_00045",
+            "label": "Monsanto_Tech_ID_-_00045",
+            "customer": "0"
+        },
+        {
+            "list_name": "custmonsantoid",
+            "name": "Monsanto_Tech_ID_-_00046",
+            "label": "Monsanto_Tech_ID_-_00046",
+            "customer": "0"
+        },
+        {
+            "list_name": "custmonsantoid",
+            "name": "Monsanto_Tech_ID_-_00047",
+            "label": "Monsanto_Tech_ID_-_00047",
+            "customer": "0"
+        },
+        {
+            "list_name": "custmonsantoid",
+            "name": "Monsanto_Tech_ID_-_00048",
+            "label": "Monsanto_Tech_ID_-_00048",
+            "customer": "0"
+        },
+        {
+            "list_name": "custmonsantoid",
+            "name": "Monsanto_Tech_ID_-_00049",
+            "label": "Monsanto_Tech_ID_-_00049",
+            "customer": "0"
+        },
+        {
+            "list_name": "custmonsantoid",
+            "name": "Monsanto_Tech_ID_-_00050",
+            "label": "Monsanto_Tech_ID_-_00050",
+            "customer": "0"
+        },
+        {
+            "list_name": "custmonsantoid",
+            "name": "Monsanto_Tech_ID_-_00051",
+            "label": "Monsanto_Tech_ID_-_00051",
+            "customer": "0"
+        },
+        {
+            "list_name": "custmonsantoid",
+            "name": "Monsanto_Tech_ID_-_00052",
+            "label": "Monsanto_Tech_ID_-_00052",
+            "customer": "0"
+        },
+        {
+            "list_name": "custmonsantoid",
+            "name": "Monsanto_Tech_ID_-_00053",
+            "label": "Monsanto_Tech_ID_-_00053",
+            "customer": "0"
+        },
+        {
+            "list_name": "custmonsantoid",
+            "name": "Monsanto_Tech_ID_-_00054",
+            "label": "Monsanto_Tech_ID_-_00054",
+            "customer": "0"
+        },
+        {
+            "list_name": "custmonsantoid",
+            "name": "Monsanto_Tech_ID_-_00055",
+            "label": "Monsanto_Tech_ID_-_00055",
+            "customer": "0"
+        },
+        {
+            "list_name": "custmonsantoid",
+            "name": "Monsanto_Tech_ID_-_00056",
+            "label": "Monsanto_Tech_ID_-_00056",
+            "customer": "0"
+        },
+        {
+            "list_name": "custmonsantoid",
+            "name": "Monsanto_Tech_ID_-_00057",
+            "label": "Monsanto_Tech_ID_-_00057",
+            "customer": "0"
+        },
+        {
+            "list_name": "custmonsantoid",
+            "name": "Monsanto_Tech_ID_-_00058",
+            "label": "Monsanto_Tech_ID_-_00058",
+            "customer": "0"
+        },
+        {
+            "list_name": "custmonsantoid",
+            "name": "Monsanto_Tech_ID_-_00059",
+            "label": "Monsanto_Tech_ID_-_00059",
+            "customer": "0"
+        },
+        {
+            "list_name": "custmonsantoid",
+            "name": "Monsanto_Tech_ID_-_00060",
+            "label": "Monsanto_Tech_ID_-_00060",
+            "customer": "0"
+        },
+        {
+            "list_name": "custmonsantoid",
+            "name": "Monsanto_Tech_ID_-_00061",
+            "label": "Monsanto_Tech_ID_-_00061",
+            "customer": "0"
+        },
+        {
+            "list_name": "custmonsantoid",
+            "name": "Monsanto_Tech_ID_-_00062",
+            "label": "Monsanto_Tech_ID_-_00062",
+            "customer": "0"
+        },
+        {
+            "list_name": "custmonsantoid",
+            "name": "Monsanto_Tech_ID_-_00063",
+            "label": "Monsanto_Tech_ID_-_00063",
+            "customer": "0"
+        },
+        {
+            "list_name": "custmonsantoid",
+            "name": "Monsanto_Tech_ID_-_00064",
+            "label": "Monsanto_Tech_ID_-_00064",
+            "customer": "0"
+        },
+        {
+            "list_name": "custmonsantoid",
+            "name": "Monsanto_Tech_ID_-_00065",
+            "label": "Monsanto_Tech_ID_-_00065",
+            "customer": "0"
+        },
+        {
+            "list_name": "custmonsantoid",
+            "name": "Monsanto_Tech_ID_-_00066",
+            "label": "Monsanto_Tech_ID_-_00066",
+            "customer": "0"
+        },
+        {
+            "list_name": "custmonsantoid",
+            "name": "Monsanto_Tech_ID_-_00067",
+            "label": "Monsanto_Tech_ID_-_00067",
+            "customer": "0"
+        },
+        {
+            "list_name": "custmonsantoid",
+            "name": "Monsanto_Tech_ID_-_00068",
+            "label": "Monsanto_Tech_ID_-_00068",
+            "customer": "0"
+        },
+        {
+            "list_name": "custmonsantoid",
+            "name": "Monsanto_Tech_ID_-_00069",
+            "label": "Monsanto_Tech_ID_-_00069",
+            "customer": "0"
+        },
+        {
+            "list_name": "custmonsantoid",
+            "name": "Monsanto_Tech_ID_-_00070",
+            "label": "Monsanto_Tech_ID_-_00070",
+            "customer": "0"
+        },
+        {
+            "list_name": "custmonsantoid",
+            "name": "Monsanto_Tech_ID_-_00071",
+            "label": "Monsanto_Tech_ID_-_00071",
+            "customer": "0"
+        },
+        {
+            "list_name": "custmonsantoid",
+            "name": "Monsanto_Tech_ID_-_00072",
+            "label": "Monsanto_Tech_ID_-_00072",
+            "customer": "0"
+        },
+        {
+            "list_name": "custmonsantoid",
+            "name": "Monsanto_Tech_ID_-_00073",
+            "label": "Monsanto_Tech_ID_-_00073",
+            "customer": "0"
+        },
+        {
+            "list_name": "custmonsantoid",
+            "name": "Monsanto_Tech_ID_-_00074",
+            "label": "Monsanto_Tech_ID_-_00074",
+            "customer": "0"
+        },
+        {
+            "list_name": "custmonsantoid",
+            "name": "Monsanto_Tech_ID_-_00075",
+            "label": "Monsanto_Tech_ID_-_00075",
+            "customer": "0"
+        },
+        {
+            "list_name": "custmonsantoid",
+            "name": "Monsanto_Tech_ID_-_00076",
+            "label": "Monsanto_Tech_ID_-_00076",
+            "customer": "0"
+        },
+        {
+            "list_name": "custmonsantoid",
+            "name": "Monsanto_Tech_ID_-_00077",
+            "label": "Monsanto_Tech_ID_-_00077",
+            "customer": "0"
+        },
+        {
+            "list_name": "custmonsantoid",
+            "name": "Monsanto_Tech_ID_-_00078",
+            "label": "Monsanto_Tech_ID_-_00078",
+            "customer": "0"
+        },
+        {
+            "list_name": "custmonsantoid",
+            "name": "Monsanto_Tech_ID_-_00079",
+            "label": "Monsanto_Tech_ID_-_00079",
+            "customer": "0"
+        },
+        {
+            "list_name": "custmonsantoid",
+            "name": "Monsanto_Tech_ID_-_00080",
+            "label": "Monsanto_Tech_ID_-_00080",
+            "customer": "0"
+        },
+        {
+            "list_name": "custmonsantoid",
+            "name": "Monsanto_Tech_ID_-_00081",
+            "label": "Monsanto_Tech_ID_-_00081",
+            "customer": "0"
+        },
+        {
+            "list_name": "custmonsantoid",
+            "name": "Monsanto_Tech_ID_-_00082",
+            "label": "Monsanto_Tech_ID_-_00082",
+            "customer": "0"
+        },
+        {
+            "list_name": "custmonsantoid",
+            "name": "Monsanto_Tech_ID_-_00083",
+            "label": "Monsanto_Tech_ID_-_00083",
+            "customer": "0"
+        },
+        {
+            "list_name": "custmonsantoid",
+            "name": "Monsanto_Tech_ID_-_00084",
+            "label": "Monsanto_Tech_ID_-_00084",
+            "customer": "0"
+        },
+        {
+            "list_name": "custmonsantoid",
+            "name": "Monsanto_Tech_ID_-_00085",
+            "label": "Monsanto_Tech_ID_-_00085",
+            "customer": "0"
+        },
+        {
+            "list_name": "custmonsantoid",
+            "name": "Monsanto_Tech_ID_-_00086",
+            "label": "Monsanto_Tech_ID_-_00086",
+            "customer": "0"
+        },
+        {
+            "list_name": "custmonsantoid",
+            "name": "Monsanto_Tech_ID_-_00087",
+            "label": "Monsanto_Tech_ID_-_00087",
+            "customer": "0"
+        },
+        {
+            "list_name": "custmonsantoid",
+            "name": "Monsanto_Tech_ID_-_00088",
+            "label": "Monsanto_Tech_ID_-_00088",
+            "customer": "0"
+        },
+        {
+            "list_name": "custmonsantoid",
+            "name": "Monsanto_Tech_ID_-_00089",
+            "label": "Monsanto_Tech_ID_-_00089",
+            "customer": "0"
+        },
+        {
+            "list_name": "custmonsantoid",
+            "name": "Monsanto_Tech_ID_-_00090",
+            "label": "Monsanto_Tech_ID_-_00090",
+            "customer": "0"
+        },
+        {
+            "list_name": "custmonsantoid",
+            "name": "Monsanto_Tech_ID_-_00091",
+            "label": "Monsanto_Tech_ID_-_00091",
+            "customer": "0"
+        },
+        {
+            "list_name": "custmonsantoid",
+            "name": "Monsanto_Tech_ID_-_00092",
+            "label": "Monsanto_Tech_ID_-_00092",
+            "customer": "0"
+        },
+        {
+            "list_name": "custmonsantoid",
+            "name": "Monsanto_Tech_ID_-_00093",
+            "label": "Monsanto_Tech_ID_-_00093",
+            "customer": "0"
+        },
+        {
+            "list_name": "custmonsantoid",
+            "name": "Monsanto_Tech_ID_-_00094",
+            "label": "Monsanto_Tech_ID_-_00094",
+            "customer": "0"
+        },
+        {
+            "list_name": "custmonsantoid",
+            "name": "Monsanto_Tech_ID_-_00095",
+            "label": "Monsanto_Tech_ID_-_00095",
+            "customer": "0"
+        },
+        {
+            "list_name": "custmonsantoid",
+            "name": "Monsanto_Tech_ID_-_00096",
+            "label": "Monsanto_Tech_ID_-_00096",
+            "customer": "0"
+        },
+        {
+            "list_name": "custmonsantoid",
+            "name": "Monsanto_Tech_ID_-_00097",
+            "label": "Monsanto_Tech_ID_-_00097",
+            "customer": "0"
+        },
+        {
+            "list_name": "custmonsantoid",
+            "name": "Monsanto_Tech_ID_-_00098",
+            "label": "Monsanto_Tech_ID_-_00098",
+            "customer": "0"
+        },
+        {
+            "list_name": "custmonsantoid",
+            "name": "Monsanto_Tech_ID_-_00099",
+            "label": "Monsanto_Tech_ID_-_00099",
+            "customer": "0"
+        },
+        {
+            "list_name": "custmonsantoid",
+            "name": "Monsanto_Tech_ID_-_00100",
+            "label": "Monsanto_Tech_ID_-_00100",
+            "customer": "0"
+        }
+    ],
+    "settings": [
+        {
+            "form_title": "SXOrder 2020 ACSC V3",
+            "form_id": "SX_Order_ACSC_2020_v3",
+            "version": "2020",
+            "instance_name": "concat( ${customer_name}, '   (', ${order},')   ',${date_of_sale})"
+        }
+    ]
+}
